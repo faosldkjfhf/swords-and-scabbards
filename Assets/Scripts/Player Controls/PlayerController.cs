@@ -6,18 +6,19 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5.0f;
     public float xSens = 10.0f;
     public float ySens = 10.0f;
+    private float xRotation = 0.0f;
 
     private PlayerInputActions playerControls;
     private InputAction move;
     private InputAction look;
-    private InputAction fire;
+    private InputAction swing;
     private InputAction block;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
     private CharacterController controller;
 
-    private float xRotation = 0.0f;
+    private Weapon weapon;
 
     private void Awake()
     {
@@ -39,9 +40,9 @@ public class PlayerController : MonoBehaviour
         look.canceled += ctx => lookPosition = Vector2.zero;
 
         // Fire - placeholder for now
-        fire = playerControls.Player.Fire;
-        fire.Enable();
-        fire.performed += OnFire;
+        swing = playerControls.Player.Swing;
+        swing.Enable();
+        swing.performed += OnSwing;
 
         // Block - placeholder for now
         block = playerControls.Player.Block;
@@ -53,13 +54,15 @@ public class PlayerController : MonoBehaviour
     {
         move.Disable();
         look.Disable();
-        fire.Disable();
+        swing.Disable();
+        block.Disable();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        weapon = GetComponent<Weapon>();
     }
 
     // Update is called once per frame
@@ -81,12 +84,19 @@ public class PlayerController : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -80.0f, 80.0f);
 
         Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        transform.Rotate(Vector3.up * (lookPosition.x * Time.deltaTime) * xSens);
+        transform.Rotate(lookPosition.x * Time.deltaTime * xSens * Vector3.up);
     }
 
-    private void OnFire(InputAction.CallbackContext ctx)
+    private void OnSwing(InputAction.CallbackContext ctx)
     {
-        Debug.Log("fired");
+        if (weapon)
+        {
+            weapon.Swing();
+        }
+        else
+        {
+            Debug.Log("No weapon equipped");
+        }
     }
 
     private void OnLook(InputAction.CallbackContext ctx)

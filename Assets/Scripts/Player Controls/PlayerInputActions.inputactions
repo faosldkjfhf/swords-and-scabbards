@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Swing",
                     "type": "Button",
                     "id": "b87fcbc7-51e6-4882-8a50-f02a24bd5f06",
                     "expectedControlType": "Button",
@@ -72,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
+                    "action": "Swing",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

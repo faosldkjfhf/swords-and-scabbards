@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private InputAction move;
     private InputAction look;
     private InputAction fire;
+    private InputAction block;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
@@ -41,6 +42,11 @@ public class PlayerController : MonoBehaviour
         fire = playerControls.Player.Fire;
         fire.Enable();
         fire.performed += OnFire;
+
+        // Block - placeholder for now
+        block = playerControls.Player.Block;
+        block.Enable();
+        block.performed += OnBlock;
     }
 
     private void OnDisable()
@@ -91,5 +97,10 @@ public class PlayerController : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx)
     {
         moveDirection = ctx.ReadValue<Vector2>();
+    }
+
+    private void OnBlock(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("blocked");
     }
 }

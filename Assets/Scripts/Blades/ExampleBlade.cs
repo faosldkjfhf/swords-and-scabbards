@@ -32,4 +32,8 @@ public class ExampleBlade : MonoBehaviour, IBlade
         set { handleConnectionPoint = value; }
     }
 
+    public void OnBladeTriggerEnter(Collider other)
+    {
+        throw new System.NotImplementedException();
+    }
 }

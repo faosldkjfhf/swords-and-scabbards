@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private Blade blade;
-    private Handle handle;
+    private IBlade blade;
+    private IHandle handle;
+
+    public Weapon(IBlade blade, IHandle handle)
+    {
+        this.blade = blade;
+        this.handle = handle;
+    }
 
     // Start is called before the first frame update
     void Start() { }
@@ -16,5 +22,10 @@ public class Weapon : MonoBehaviour
     public void Swing()
     {
         Debug.Log("weapon swung");
+    }
+
+    public IBlade getBlade()
+    {
+        return blade;
     }
 }

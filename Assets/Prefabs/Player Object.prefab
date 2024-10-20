@@ -48,8 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  maxStamina: 100
+  staminaDecay: 20
+  staminaRegen: 10
   xSens: 30
   ySens: 30
+  weight: 1
 --- !u!143 &1291022518007947360
 CharacterController:
   m_ObjectHideFlags: 0

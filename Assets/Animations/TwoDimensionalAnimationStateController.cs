@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class TwoDimensionalAnimationStateController : MonoBehaviour
 {
+    [Header("Controller")]
+    public PlayerController playerController;
 
+    [Header("Animator")]
     Animator animator;
     float velocityZ = 0.0f;
     float velocityX = 0.0f;
@@ -13,21 +16,33 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public float MaxWalk = 0.5f;
     public float MaxRun = 2.0f;
 
-
     //hashing for performance
     int velocityZHash;
     int velocityXHash;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerController = GetComponentInParent<PlayerController>();
         animator = GetComponent<Animator>();
 
         velocityZHash = Animator.StringToHash("Velocity Z");
         velocityXHash = Animator.StringToHash("Velocity X");
+
+        if (!playerController)
+        {
+            Debug.Log("PlayerController not found");
+        }
     }
 
-
-    void changeVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
+    void changeVelocity(
+        bool forwardPressed,
+        bool rightPressed,
+        bool leftPressed,
+        bool backPressed,
+        bool runPressed,
+        float currentMaxVelocity
+    )
     {
         //going forward, allows sprint
         if (forwardPressed && velocityZ < currentMaxVelocity)
@@ -76,15 +91,31 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         }
     }
 
-    void lockOrResetVelocity(bool forwardPressed, bool rightPressed, bool leftPressed, bool backPressed, bool runPressed, float currentMaxVelocity)
+    void lockOrResetVelocity(
+        bool forwardPressed,
+        bool rightPressed,
+        bool leftPressed,
+        bool backPressed,
+        bool runPressed,
+        float currentMaxVelocity
+    )
     {
-        if (!rightPressed && !leftPressed && velocityX != 0 && (velocityX > -0.05f && velocityX < 0.05))
+        if (
+            !rightPressed
+            && !leftPressed
+            && velocityX != 0
+            && (velocityX > -0.05f && velocityX < 0.05)
+        )
         {
             velocityX = 0.0f;
         }
 
-
-        if (!forwardPressed && !backPressed && velocityZ != 0 && (velocityZ > -0.05f && velocityZ < 0.05))
+        if (
+            !forwardPressed
+            && !backPressed
+            && velocityZ != 0
+            && (velocityZ > -0.05f && velocityZ < 0.05)
+        )
         {
             velocityZ = 0.0f;
         }
@@ -95,17 +126,18 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         }
         else if (forwardPressed && velocityZ > currentMaxVelocity)
         {
-
-
             velocityZ -= Time.deltaTime * decceleration;
 
             if (velocityZ > currentMaxVelocity && velocityZ < (currentMaxVelocity + 0.05f))
             {
                 velocityZ = currentMaxVelocity;
             }
-
         }
-        else if (forwardPressed && velocityZ < currentMaxVelocity && velocityZ > (currentMaxVelocity - 0.05f))
+        else if (
+            forwardPressed
+            && velocityZ < currentMaxVelocity
+            && velocityZ > (currentMaxVelocity - 0.05f)
+        )
         {
             velocityZ = currentMaxVelocity;
         }
@@ -114,21 +146,38 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool forwardPressed = Input.GetKey(KeyCode.W);
-        bool leftPressed = Input.GetKey(KeyCode.A);
-        bool rightPressed = Input.GetKey(KeyCode.D);
-        bool backPressed = Input.GetKey(KeyCode.S);
-        bool runPressed = Input.GetKey(KeyCode.LeftShift);
+        bool forwardPressed = playerController.GetMoveDirection().y > 0;
+        bool leftPressed = playerController.GetMoveDirection().x < 0;
+        bool rightPressed = playerController.GetMoveDirection().x > 0;
+        bool backPressed = playerController.GetMoveDirection().y < 0;
+        bool runPressed = playerController.GetSprinting();
 
+        bool lightAttackPressed = false;
+        bool heavyAttackPressed = false;
+        bool weaponArtPressed = false;
+
+        // right bumper - light attack - PRIORITY
+        // right trigger - heavy attack - PRIORITY
+        // left trigger - weapon art
 
         float currentMaxVelocity = runPressed ? MaxRun : MaxWalk;
 
-        changeVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
-        lockOrResetVelocity(forwardPressed, rightPressed, leftPressed, backPressed, runPressed, currentMaxVelocity);
-
-
-
-
+        changeVelocity(
+            forwardPressed,
+            rightPressed,
+            leftPressed,
+            backPressed,
+            runPressed,
+            currentMaxVelocity
+        );
+        lockOrResetVelocity(
+            forwardPressed,
+            rightPressed,
+            leftPressed,
+            backPressed,
+            runPressed,
+            currentMaxVelocity
+        );
 
         animator.SetFloat(velocityZHash, velocityZ);
         animator.SetFloat(velocityXHash, velocityX);

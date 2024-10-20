@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -19,6 +18,10 @@ public class PlayerController : MonoBehaviour
     [Header("Physics")]
     public double weight = 1.0f;
 
+    [Header("Weapon")]
+    [SerializeField]
+    private Weapon weapon;
+
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
 
@@ -26,9 +29,10 @@ public class PlayerController : MonoBehaviour
     private InputUser user;
     private InputAction move;
     private InputAction look;
-    private InputAction swing;
+    private InputAction lightAttack;
     private InputAction block;
     private InputAction sprint;
+    private InputAction heavyAttack;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
@@ -36,9 +40,29 @@ public class PlayerController : MonoBehaviour
     private float originalSpeed;
     private bool isSprinting = false;
     private float currentStamina;
-
-    private Weapon weapon;
     private new Camera camera;
+
+    public bool GetSprinting()
+    {
+        return isSprinting;
+    }
+
+    public Vector2 GetMoveDirection()
+    {
+        return moveDirection;
+    }
+
+    public bool GetLightAttack()
+    {
+        return lightAttack.triggered;
+        // TODO: cooldown linked to speed of animation
+        // use coroutine to wait for animation to finish
+    }
+
+    public bool GetHeavyAttack()
+    {
+        return heavyAttack.triggered;
+    }
 
     private void Awake()
     {
@@ -71,8 +95,11 @@ public class PlayerController : MonoBehaviour
         look.canceled += ctx => lookPosition = Vector2.zero;
 
         // Fire - placeholder for now
-        swing = playerInput.Player.Swing;
-        swing.performed += OnSwing;
+        lightAttack = playerInput.Player.Swing;
+        lightAttack.performed += OnSwing;
+
+        heavyAttack = playerInput.Player.HeavyAttack;
+        heavyAttack.performed += ctx => Debug.Log("Heavy Attack");
 
         // Block - placeholder for now
         block = playerInput.Player.Block;
@@ -115,7 +142,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.DrawRay(camera.transform.position, camera.transform.forward * 100, Color.red);
         MovePlayer();
         PlayerLook();
         UpdateStamina();

@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private InputAction block;
     private InputAction sprint;
     private InputAction heavyAttack;
+    private InputAction specialAttack;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
@@ -41,6 +42,15 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
+
+
+    public enum actionEnum
+    {
+        LightSwing,
+        HeavySwing,
+        SpecialAttack,
+        Block
+    }
 
     public bool GetSprinting()
     {
@@ -61,7 +71,23 @@ public class PlayerController : MonoBehaviour
 
     public bool GetHeavyAttack()
     {
+        Debug.Log("heavy attack:" + heavyAttack.triggered);
         return heavyAttack.triggered;
+
+    }
+
+    public bool GetSpecialAttack()
+    {
+        Debug.Log("heavy attack:" + specialAttack.triggered);
+        return specialAttack.triggered;
+        // TODO: cooldown linked to speed of animation
+        // use coroutine to wait for animation to finish
+    }
+
+    public bool GetBlocking()
+    {
+        Debug.Log("block:" + block.triggered);
+        return block.triggered;
     }
 
     private void Awake()
@@ -99,7 +125,11 @@ public class PlayerController : MonoBehaviour
         lightAttack.performed += OnSwing;
 
         heavyAttack = playerInput.Player.HeavyAttack;
-        heavyAttack.performed += ctx => Debug.Log("Heavy Attack");
+        heavyAttack.performed += OnSwing;
+
+
+        specialAttack = playerInput.Player.WeaponArt;
+        specialAttack.performed += OnSwing;
 
         // Block - placeholder for now
         block = playerInput.Player.Block;

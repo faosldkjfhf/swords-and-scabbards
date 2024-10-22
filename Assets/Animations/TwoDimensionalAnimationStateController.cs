@@ -143,22 +143,96 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         }
     }
 
+    void handleAttackAnimation()
+    {
+        bool lightAttackPressed = playerController.GetLightAttack();
+        bool heavyAttackPressed = playerController.GetHeavyAttack();
+        bool weaponArtPressed = playerController.GetSpecialAttack();
+        bool blockPressed = playerController.GetBlocking();
+
+
+        bool isLightAttacking = animator.GetBool("isAttacking1");
+        bool isHeavyAttacking = animator.GetBool("isAttacking2");
+        bool isSpecialAttacking = animator.GetBool("isAttacking3");
+        bool isBlocking = animator.GetBool("isBlocking");
+
+
+        bool attacking() {
+            return isLightAttacking && isHeavyAttacking && isSpecialAttacking && isBlocking;
+        }
+
+
+        //bool attack1Finished = stateInfo.IsName("Attacks.GreatSwordSlash") && stateInfo.normalizedTime >= 1.0f;
+        //bool attack2Finished = stateInfo.IsName("Attacks.greatSwordSlash2") && stateInfo.normalizedTime >= 1.0f;
+        //bool attack3Finished = stateInfo.IsName("Attacks.GreatSwordPommelStrike") && stateInfo.normalizedTime >= 1.0f;
+        //bool blockFinished = stateInfo.IsName("Attacks.GreatSwordBlock2") && stateInfo.normalizedTime >= 1.0f;
+
+
+        Dictionary<string, string> animationBoolMap = new Dictionary<string, string>()
+        {
+        { "Attack1", "isAttacking1" },
+        { "Attack2", "isAttacking2" },
+        { "Attack3", "isAttacking3" },
+        { "Block", "isBlocking" }
+        };
+
+
+
+
+
+        // right bumper - light attack - PRIORITY
+        // right trigger - heavy attack - PRIORITY
+        // left trigger - weapon art
+
+
+        if (lightAttackPressed && !attacking())
+        {
+            animator.SetBool("isAttacking1", true);
+        }
+
+        if (heavyAttackPressed && !attacking())
+        {
+            animator.SetBool("isAttacking2", true);
+        }
+
+        if (weaponArtPressed && !attacking())
+        {
+            animator.SetBool("isAttacking3", true);
+        }
+
+        if (blockPressed && !attacking())
+        {
+            animator.SetBool("isBlocking", true);
+        }
+
+        foreach (var entry in animationBoolMap)
+        {
+            string animationName = entry.Key;
+            string boolParameter = entry.Value;
+
+            // Get the state info of the current animation on the base layer
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            // Check if the animation is playing and has finished (normalizedTime >= 1.0f)
+            if (stateInfo.IsName($"Attacks.{animationName}") && stateInfo.normalizedTime >= 1.0f)
+            {
+                animator.SetBool(boolParameter, false);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+
+        handleAttackAnimation();
         bool forwardPressed = playerController.GetMoveDirection().y > 0;
         bool leftPressed = playerController.GetMoveDirection().x < 0;
         bool rightPressed = playerController.GetMoveDirection().x > 0;
         bool backPressed = playerController.GetMoveDirection().y < 0;
         bool runPressed = playerController.GetSprinting();
 
-        bool lightAttackPressed = false;
-        bool heavyAttackPressed = false;
-        bool weaponArtPressed = false;
 
-        // right bumper - light attack - PRIORITY
-        // right trigger - heavy attack - PRIORITY
-        // left trigger - weapon art
 
         float currentMaxVelocity = runPressed ? MaxRun : MaxWalk;
 

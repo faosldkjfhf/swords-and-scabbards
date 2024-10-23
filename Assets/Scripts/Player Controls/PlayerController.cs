@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private float yRotation = 0.0f;
 
     private PlayerInputActions playerInput;
+    private TwoDimensionalAnimationStateController animationController;
     private InputUser user;
     private InputAction move;
     private InputAction look;
@@ -72,13 +73,13 @@ public class PlayerController : MonoBehaviour
 
     public bool GetHeavyAttack()
     {
-        Debug.Log("heavy attack:" + heavyAttack.triggered);
+        // Debug.Log("heavy attack:" + heavyAttack.triggered);
         return heavyAttack.triggered;
     }
 
     public bool GetSpecialAttack()
     {
-        Debug.Log("heavy attack:" + specialAttack.triggered);
+        // Debug.Log("heavy attack:" + specialAttack.triggered);
         return specialAttack.triggered;
         // TODO: cooldown linked to speed of animation
         // use coroutine to wait for animation to finish
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
     public bool GetBlocking()
     {
-        Debug.Log("block:" + block.triggered);
+        // Debug.Log("block:" + block.triggered);
         return block.triggered;
     }
 
@@ -163,13 +164,14 @@ public class PlayerController : MonoBehaviour
         controller = this.GetComponent<CharacterController>();
         weapon = this.GetComponentInChildren<Weapon>();
         camera = this.GetComponentInChildren<Camera>();
+        animationController = this.GetComponentInChildren<TwoDimensionalAnimationStateController>();
 
         originalSpeed = moveSpeed;
         currentStamina = maxStamina;
         currentHealth = GameManager.playerHealth;
     }
 
-    public  void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
@@ -186,6 +188,8 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
         PlayerLook();
         UpdateStamina();
+
+        weapon.setAttacking(animationController.isAttacking());
     }
 
     private void MovePlayer()

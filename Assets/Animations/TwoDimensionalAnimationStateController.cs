@@ -16,6 +16,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public float MaxWalk = 0.5f;
     public float MaxRun = 2.0f;
 
+    bool isLightAttacking = false;
+    bool isHeavyAttacking = false;
+    bool isSpecialAttacking = false;
+    bool isBlocking = false;
+
     //hashing for performance
     int velocityZHash;
     int velocityXHash;
@@ -143,24 +148,23 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         }
     }
 
+    public bool attacking()
+    {
+        return isLightAttacking && isHeavyAttacking && isSpecialAttacking && isBlocking;
+    }
+
+    // Is the player doing any attack?
+    public bool isAttacking()
+    {
+        return isLightAttacking || isHeavyAttacking || isSpecialAttacking;
+    }
+
     void handleAttackAnimation()
     {
         bool lightAttackPressed = playerController.GetLightAttack();
         bool heavyAttackPressed = playerController.GetHeavyAttack();
         bool weaponArtPressed = playerController.GetSpecialAttack();
         bool blockPressed = playerController.GetBlocking();
-
-
-        bool isLightAttacking = animator.GetBool("isAttacking1");
-        bool isHeavyAttacking = animator.GetBool("isAttacking2");
-        bool isSpecialAttacking = animator.GetBool("isAttacking3");
-        bool isBlocking = animator.GetBool("isBlocking");
-
-
-        bool attacking() {
-            return isLightAttacking && isHeavyAttacking && isSpecialAttacking && isBlocking;
-        }
-
 
         //bool attack1Finished = stateInfo.IsName("Attacks.GreatSwordSlash") && stateInfo.normalizedTime >= 1.0f;
         //bool attack2Finished = stateInfo.IsName("Attacks.greatSwordSlash2") && stateInfo.normalizedTime >= 1.0f;
@@ -170,15 +174,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
 
         Dictionary<string, string> animationBoolMap = new Dictionary<string, string>()
         {
-        { "Attack1", "isAttacking1" },
-        { "Attack2", "isAttacking2" },
-        { "Attack3", "isAttacking3" },
-        { "Block", "isBlocking" }
+            { "Attack1", "isAttacking1" },
+            { "Attack2", "isAttacking2" },
+            { "Attack3", "isAttacking3" },
+            { "Block", "isBlocking" }
         };
-
-
-
-
 
         // right bumper - light attack - PRIORITY
         // right trigger - heavy attack - PRIORITY
@@ -224,6 +224,10 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isLightAttacking = animator.GetBool("isAttacking1");
+        isHeavyAttacking = animator.GetBool("isAttacking2");
+        isSpecialAttacking = animator.GetBool("isAttacking3");
+        isBlocking = animator.GetBool("isBlocking");
 
         handleAttackAnimation();
         bool forwardPressed = playerController.GetMoveDirection().y > 0;
@@ -231,8 +235,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         bool rightPressed = playerController.GetMoveDirection().x > 0;
         bool backPressed = playerController.GetMoveDirection().y < 0;
         bool runPressed = playerController.GetSprinting();
-
-
 
         float currentMaxVelocity = runPressed ? MaxRun : MaxWalk;
 

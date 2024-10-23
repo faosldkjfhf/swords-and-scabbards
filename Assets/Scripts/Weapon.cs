@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
     public GameObject blade;
     public GameObject handle;
+    private bool isAttacking = false;
+    private bool dealtDamage = false;
+    public GameObject wielder;
 
-    public Weapon(GameObject blade, GameObject handle)
+    public Weapon(GameObject blade, GameObject handle, GameObject wielder)
     {
         this.blade = blade;
         this.handle = handle;
+        this.wielder = wielder;
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         connectToBlade();
     }
 
@@ -26,6 +32,16 @@ public class Weapon : MonoBehaviour
         Debug.Log("weapon swung");
     }
 
+    public void setAttacking(bool attacking)
+    {
+        if (attacking == false)
+        {
+            dealtDamage = false;
+        }
+
+        isAttacking = attacking;
+    }
+
     public GameObject getBlade()
     {
         return blade;
@@ -34,8 +50,12 @@ public class Weapon : MonoBehaviour
     public void connectToBlade()
     {
         // Get the connection points on the blade and handle
-        Transform bladeConnectionPoint = blade.GetComponent<ExampleBlade>().handleConnectionPoint.transform;
-        Transform handleConnectionPoint = handle.GetComponent<ExampleHandle>().handleConnectionPoint.transform;
+        Transform bladeConnectionPoint = blade
+            .GetComponent<ExampleBlade>()
+            .handleConnectionPoint.transform;
+        Transform handleConnectionPoint = handle
+            .GetComponent<ExampleHandle>()
+            .handleConnectionPoint.transform;
 
         // Parent the blade to the handle first (so we can adjust relative positioning)
         blade.transform.SetParent(handle.transform);
@@ -53,13 +73,18 @@ public class Weapon : MonoBehaviour
         Debug.Log("Blade connected to handle.");
     }
 
-
     public void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("Player"))
+        if (isAttacking && !dealtDamage)
         {
-            other.gameObject.GetComponent<PlayerController>().TakeDamage(blade.GetComponent<IBlade>().DamageValue);
-            Debug.Log("Player hit");
+            if (other.gameObject.CompareTag("Player") && other.gameObject != wielder)
+            {
+                Debug.Log("Player hit");
+                dealtDamage = true;
+                // other.gameObject
+                //     .GetComponent<PlayerController>()
+                //     .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
+            }
         }
     }
 }

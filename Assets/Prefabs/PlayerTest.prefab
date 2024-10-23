@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3388768732014174863}
   m_Layer: 0
   m_Name: PlayerTest
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,13 +89,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5602471804641585776}
     m_Modifications:
+    - target: {fileID: 565164443550802533, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: wielder
+      value: 
+      objectReference: {fileID: 79104181003939632}
     - target: {fileID: 2104999780954693646, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 4561274640724422033}
-    - target: {fileID: 2104999780954693646, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
-      propertyPath: m_DefaultControlScheme
-      value: Gamepad
+    - target: {fileID: 3609848715697956255, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 3609848715697956255, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3609848715697956255, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3609848715697956255, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6221617900156952259, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: m_Radius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6242989742838192935, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
       propertyPath: m_LocalPosition.x

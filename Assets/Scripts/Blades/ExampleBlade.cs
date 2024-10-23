@@ -12,7 +12,7 @@ public class ExampleBlade : MonoBehaviour, IBlade
 
     [Header("Blade Connection Point")]
     [SerializeField]
-    private GameObject handleConnectionPoint;
+    public GameObject handleConnectionPoint;
 
     public float DamageValue
     {

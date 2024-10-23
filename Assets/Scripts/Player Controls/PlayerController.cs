@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         currentHealth = GameManager.playerHealth;
     }
 
-    private void UpdateHealth(float damage)
+    public  void TakeDamage(float damage)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);

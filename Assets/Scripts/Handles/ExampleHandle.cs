@@ -7,13 +7,23 @@ public class ExampleHandle : MonoBehaviour, IHandle
     [Header("Handle Properties")]
     [SerializeField]
     private MonoBehaviour swingStyle;
+
+    [SerializeField]
+    public RuntimeAnimatorController swing;
+
+
     [SerializeField]
     private float dropChancePercentage;
+
+        [Header("Blade Connection Point")]
+    [SerializeField]
+    public GameObject handleConnectionPoint;
 
     public ISwingStyle SwingStyle
     {
         get { return (ISwingStyle)swingStyle; }
         set { swingStyle = (MonoBehaviour)value; }
+        
     }
 
     public float DropChancePercentage

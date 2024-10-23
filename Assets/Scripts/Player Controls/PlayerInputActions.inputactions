@@ -29,7 +29,7 @@
                     "id": "a312e4e2-21fe-4de5-abe7-545d6ac470d2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
@@ -194,7 +194,7 @@
                 {
                     "name": "",
                     "id": "58d26f13-18a8-49c8-919b-c863f5108ad1",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -237,11 +237,33 @@
                 },
                 {
                     "name": "",
+                    "id": "63cfe632-e728-4738-91d1-4629d387c86e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Heavy Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "6888e693-daa9-4569-9a9c-f3d325f40409",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Weapon Art",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f84419b7-aaaa-4a6d-8112-be7dc4c019ae",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Weapon Art",
                     "isComposite": false,
                     "isPartOfComposite": false

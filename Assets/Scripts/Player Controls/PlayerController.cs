@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Weapon weapon;
 
+    private float currentHealth;
+
     private float xRotation = 0.0f;
     private float yRotation = 0.0f;
 
@@ -42,7 +44,6 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
-
 
     public enum actionEnum
     {
@@ -73,7 +74,6 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("heavy attack:" + heavyAttack.triggered);
         return heavyAttack.triggered;
-
     }
 
     public bool GetSpecialAttack()
@@ -127,7 +127,6 @@ public class PlayerController : MonoBehaviour
         heavyAttack = playerInput.Player.HeavyAttack;
         heavyAttack.performed += OnSwing;
 
-
         specialAttack = playerInput.Player.WeaponArt;
         specialAttack.performed += OnSwing;
 
@@ -167,6 +166,18 @@ public class PlayerController : MonoBehaviour
 
         originalSpeed = moveSpeed;
         currentStamina = maxStamina;
+        currentHealth = GameManager.playerHealth;
+    }
+
+    private void UpdateHealth(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
+
+        if (currentHealth <= 0)
+        {
+            GameManager.running = false;
+        }
     }
 
     // Update is called once per frame

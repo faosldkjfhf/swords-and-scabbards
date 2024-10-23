@@ -9,7 +9,7 @@ public class ExampleHandle : MonoBehaviour, IHandle
     private MonoBehaviour swingStyle;
 
     [SerializeField]
-    public RuntimeAnimatorController swing;
+    public RuntimeAnimatorController animationStyle;
 
 
     [SerializeField]

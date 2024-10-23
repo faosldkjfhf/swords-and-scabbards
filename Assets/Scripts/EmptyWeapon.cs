@@ -2,30 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class EmptyWeapon : MonoBehaviour
 {
     public GameObject blade;
     public List<GameObject> bladePrefabs; // List of blade prefabs
+    public List<GameObject> handlePrefabs; // List of blade prefabs
     public GameObject handle;
     private bool isAttacking = false;
     private bool dealtDamage = false;
     public GameObject wielder;
+    public RuntimeAnimatorController animationStyle;
 
-    public Weapon(GameObject blade, GameObject handle, GameObject wielder)
-    {
-        this.blade = blade;
-        this.handle = handle;
-        this.wielder = wielder;
-    }
 
+
+    // Start is called before the first frame update
     void Awake()
     {
         SelectAndCreateBlade();
+        SelectAndCreateHandle();
     }
-
     // Start is called before the first frame update
     void Start()
     {
+
         connectToBlade();
     }
 
@@ -62,9 +61,32 @@ public class Weapon : MonoBehaviour
         blade = Instantiate(bladePrefabs[randomIndex]);
 
         // Optionally, you can set the blade's position here if needed
-        blade.transform.position = handle.transform.position; // Example: instantiate at origin
+        blade.transform.position = transform.position;
+        blade.transform.rotation = transform.rotation; // Example: instantiate at origin
 
         Debug.Log("Blade created: " + blade.name);
+    }
+
+    public void SelectAndCreateHandle()
+    {
+        if (handlePrefabs.Count == 0)
+        {
+            Debug.LogError("No handle prefabs assigned to the weapon.");
+            return;
+        }
+
+        // Randomly select a blade prefab
+        int randomIndex = Random.Range(0, handlePrefabs.Count);
+
+        // Instantiate the selected blade prefab in the scene
+        handle = Instantiate(handlePrefabs[randomIndex]);
+
+        // Optionally, you can set the blade's position here if needed
+        handle.transform.position = transform.position;
+        handle.transform.rotation = transform.rotation;// Example: instantiate at origin
+        animationStyle = handle.GetComponent<ExampleHandle>().animationStyle;
+
+        Debug.Log("handle created: " + handle.name);
     }
 
     public GameObject getBlade()
@@ -81,38 +103,33 @@ public class Weapon : MonoBehaviour
         }
 
         // Create an empty GameObject as a holder to prevent deformation during rotation
-        GameObject bladeHolder = new GameObject("BladeHolder");
+        //GameObject weaponHolder = new GameObject("weaponHolder");
 
         // Set the bladeHolder's position and rotation to match the blade's initial transform
-        bladeHolder.transform.position = blade.transform.position;
-        bladeHolder.transform.rotation = blade.transform.rotation;
+        transform.position = handle.transform.position;
+        transform.rotation = handle.transform.rotation;
 
-        // Parent the blade to the bladeHolder to isolate its transformations
-        blade.transform.SetParent(bladeHolder.transform);
 
         // Get the connection points on the blade and handle
         Transform bladeConnectionPoint = blade.GetComponent<ExampleBlade>().handleConnectionPoint.transform;
         Transform handleConnectionPoint = handle.GetComponent<ExampleHandle>().handleConnectionPoint.transform;
 
-        // Store the current global position and rotation of the blade connection point
-        Vector3 bladeGlobalPosition = bladeConnectionPoint.position;
-        Quaternion bladeGlobalRotation = bladeConnectionPoint.rotation;
+        // Match the position and rotation of the blade to the handle's connection point
+        blade.transform.position = handleConnectionPoint.position;
+        blade.transform.rotation = handleConnectionPoint.rotation;
 
-        // Calculate the global position and rotation offsets based on the connection points
-        Vector3 positionOffset = handleConnectionPoint.position - bladeGlobalPosition;
-        Quaternion rotationOffset = handleConnectionPoint.rotation * Quaternion.Inverse(bladeGlobalRotation);
+        // Now calculate the relative offset from the blade connection point to properly adjust position and rotation
+        Vector3 connectionOffset = bladeConnectionPoint.position - blade.transform.position;
 
-        // Parent the bladeHolder to the handle (this is the final step)
-        bladeHolder.transform.SetParent(handle.transform);
+        // Move the blade so that the connection points align properly
+        blade.transform.position -= connectionOffset;
 
-        // Apply the previously calculated position offset to the bladeHolder
-        bladeHolder.transform.position += positionOffset;
-
-        // Apply the rotation offset
-        bladeHolder.transform.rotation = rotationOffset * bladeHolder.transform.rotation;
+        blade.transform.SetParent(transform);
+        handle.transform.SetParent(transform);
 
         // Optionally, you could log or debug information
         Debug.Log("Blade connected to handle through BladeHolder.");
+        gameObject.name = blade.name + handle.name;
     }
 
     public void OnCollisionEnter(Collision other)

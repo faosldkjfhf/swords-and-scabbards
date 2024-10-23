@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,9 +19,22 @@ public class PlayerController : MonoBehaviour
     [Header("Physics")]
     public double weight = 1.0f;
 
+    [Header("Weapon List")]
+    [SerializeField]
+    private List<GameObject> weaponPrefabs;
+
     [Header("Weapon")]
     [SerializeField]
-    private Weapon weapon;
+    private EmptyWeapon weapon;
+    public RuntimeAnimatorController animationStyle;
+    public Transform rightHandGrip;
+    public Transform leftHandGrip;
+
+  
+
+
+    [Header("RightHand")]
+    public Transform hand;
 
     private float currentHealth;
 
@@ -45,6 +59,8 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
+
+
 
     public enum actionEnum
     {
@@ -162,13 +178,80 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = this.GetComponent<CharacterController>();
-        weapon = this.GetComponentInChildren<Weapon>();
+        weapon = this.GetComponentInChildren<EmptyWeapon>();
         camera = this.GetComponentInChildren<Camera>();
         animationController = this.GetComponentInChildren<TwoDimensionalAnimationStateController>();
 
         originalSpeed = moveSpeed;
         currentStamina = maxStamina;
         currentHealth = GameManager.playerHealth;
+
+        SelectAndEquipWeapon();
+        setGrip();
+    }
+
+
+    public void setGrip()
+    {
+        animationStyle = weapon.animationStyle;
+
+        if (weapon.handle != null)
+        {
+            rightHandGrip = weapon.handle.transform.Find("rightHandGrip");
+            leftHandGrip = weapon.handle.transform.Find("leftHandGrip");
+            if (rightHandGrip != null)
+            {
+                Debug.Log("Right hand grip set successfully.");
+            }
+
+            if (rightHandGrip != null && leftHandGrip == null)
+            {
+                GetComponentInChildren<IKConstraintController>().leftHandGrabWeapon.enabled = false;
+                Debug.LogError("one handed weapon");
+            }
+
+            if (rightHandGrip != null && leftHandGrip != null)
+            {
+                Debug.LogError("grips succeeded");
+            }
+        }
+        else
+        {
+            Debug.LogError("Handle is missing from the weapon.");
+        }
+
+    }
+
+
+    private void SelectAndEquipWeapon()
+    {
+        if (weaponPrefabs.Count == 0)
+        {
+            Debug.LogError("No weapon prefabs assigned.");
+            return;
+        }
+
+        // Randomly select a weapon prefab
+        int randomIndex = UnityEngine.Random.Range(0, weaponPrefabs.Count);
+
+        Vector3 spawnPosition = transform.position + transform.forward * 0.5f;
+
+        // Instantiate the selected weapon at the calculated position in front of the current GameObject
+        GameObject weaponInstance = Instantiate(weaponPrefabs[randomIndex], spawnPosition, Quaternion.identity);
+
+        // Get the Weapon component
+        weapon = weaponInstance.GetComponent<EmptyWeapon>();
+        weapon.wielder = this.gameObject;
+        Debug.LogError("PLEASDASD");
+        weaponInstance.transform.SetParent(hand);
+        Debug.LogError(weaponInstance.name);
+        weaponInstance.transform.localPosition = new Vector3(-0.004f, -0.0088f, 0.0001f); // Adjust as needed
+        weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
+        weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
+        Debug.Log("Weapon instantiated at default position.");
+
+    
+
     }
 
     public void TakeDamage(float damage)

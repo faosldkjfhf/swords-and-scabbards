@@ -47,15 +47,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blade: {fileID: 0}
   bladePrefabs:
-  - {fileID: 5357977717713935980, guid: 8f47b94e87c809c408891cc8e3ae78b1, type: 3}
-  - {fileID: 148493914112661695, guid: b916d896e340b644fa5819db55e27ac0, type: 3}
-  - {fileID: 6626137378695189477, guid: 26fd18f418b44ba498aaa06c9928716e, type: 3}
+  - {fileID: 4568517260041092375, guid: 4377a9241f887384ea7ebc6edb5f9925, type: 3}
+  - {fileID: 1393658393790131038, guid: d4264a8ac33ab9742b9ec8edbb025d85, type: 3}
+  - {fileID: 5633653466101983259, guid: 9b3e5e4d46665244199ba1cf8c9e5bdd, type: 3}
+  - {fileID: 8061391650825608421, guid: 4eb41e80f66e11144957fef8345c4c04, type: 3}
   handlePrefabs:
-  - {fileID: 445166204032063162, guid: a1410d90d860c0b4589ba8bb54578f91, type: 3}
-  - {fileID: 7910973275976312391, guid: ae0c33d6ab98b2345a658e7e64e2eed2, type: 3}
-  - {fileID: 2712617482616644733, guid: c6c4247e50d5bb64a9a8c61613fd0996, type: 3}
+  - {fileID: 4369206008877847191, guid: 40fb9c8d61f859c429b5e40c4be8b58c, type: 3}
+  - {fileID: 7055287309591017783, guid: 09e06598e3072a24b963e2f6d4bcc65e, type: 3}
+  - {fileID: 396126299046099456, guid: e34de81f8c70294459aa269f43076731, type: 3}
+  - {fileID: 1141398598712394999, guid: fc51b0fa8abfa0f48a0ad3dd2d9ee224, type: 3}
   handle: {fileID: 0}
   wielder: {fileID: 0}
+  animationStyle: {fileID: 0}
+  weaponPlacement: {fileID: 0}
+  rightHandPlacement: {fileID: 0}
 --- !u!114 &7869858973548910659
 MonoBehaviour:
   m_ObjectHideFlags: 0

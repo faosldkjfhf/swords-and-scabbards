@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private InputAction sprint;
     private InputAction heavyAttack;
     private InputAction specialAttack;
+    private Effects effects;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
@@ -165,6 +166,7 @@ public class PlayerController : MonoBehaviour
         weapon = this.GetComponentInChildren<Weapon>();
         camera = this.GetComponentInChildren<Camera>();
         animationController = this.GetComponentInChildren<TwoDimensionalAnimationStateController>();
+        effects = this.GetComponent<Effects>();
 
         originalSpeed = moveSpeed;
         currentStamina = maxStamina;
@@ -173,6 +175,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        effects.ScreenDamageEffect(damage / GameManager.playerHealth);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
 

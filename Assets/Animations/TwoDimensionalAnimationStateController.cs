@@ -35,8 +35,8 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         playerController = GetComponentInParent<PlayerController>();
         animator = GetComponent<Animator>();
         armController = GetComponent<IKConstraintController>();
-        getAnimationStyle();
-        gripWeapon();
+        
+
 
         velocityZHash = Animator.StringToHash("Velocity Z");
         velocityXHash = Animator.StringToHash("Velocity X");
@@ -45,6 +45,9 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         {
             Debug.Log("PlayerController not found");
         }
+
+        gripWeapon();
+        getAnimationStyle();
     }
 
     void getAnimationStyle()
@@ -249,6 +252,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //getAnimationStyle();
         isLightAttacking = animator.GetBool("isAttacking1");
         isHeavyAttacking = animator.GetBool("isAttacking2");
         isSpecialAttacking = animator.GetBool("isAttacking3");

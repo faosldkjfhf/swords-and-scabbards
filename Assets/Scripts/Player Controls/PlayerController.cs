@@ -234,21 +234,21 @@ public class PlayerController : MonoBehaviour
         // Randomly select a weapon prefab
         int randomIndex = UnityEngine.Random.Range(0, weaponPrefabs.Count);
 
-        Vector3 spawnPosition = transform.position + transform.forward * 0.5f;
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 1.231f, transform.position.y);
+        Quaternion spawnRotation = Quaternion.Euler(90f, 0f, 0f);
 
         // Instantiate the selected weapon at the calculated position in front of the current GameObject
-        GameObject weaponInstance = Instantiate(weaponPrefabs[randomIndex], spawnPosition, Quaternion.identity);
+        GameObject weaponInstance = Instantiate(weaponPrefabs[randomIndex], spawnPosition, spawnRotation);
 
         // Get the Weapon component
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
         weapon.wielder = this.gameObject;
-        Debug.LogError("PLEASDASD");
-        weaponInstance.transform.SetParent(hand);
-        Debug.LogError(weaponInstance.name);
-        weaponInstance.transform.localPosition = new Vector3(-0.004f, -0.0088f, 0.0001f); // Adjust as needed
-        weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
-        weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
-        Debug.Log("Weapon instantiated at default position.");
+        //weaponInstance.transform.SetParent(hand);
+        //Debug.LogError(weaponInstance.name);
+        //weaponInstance.transform.localPosition = new Vector3(-0.004f, -0.0088f, 0.0001f); // Adjust as needed
+        //weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
+        //weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
+        //Debug.Log("Weapon instantiated at default position.");
 
     
 

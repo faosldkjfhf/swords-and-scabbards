@@ -13,6 +13,11 @@ public class EmptyWeapon : MonoBehaviour
     public GameObject wielder;
     public RuntimeAnimatorController animationStyle;
 
+    [SerializeField]
+    private Transform weaponPlacement;
+    [SerializeField]
+    private Transform rightHandPlacement;
+
 
 
     // Start is called before the first frame update
@@ -24,8 +29,9 @@ public class EmptyWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         connectToBlade();
+        FindWeaponPlacement();
+        setWeaponPositionAndRotation();
     }
 
     // Update is called once per frame
@@ -144,6 +150,72 @@ public class EmptyWeapon : MonoBehaviour
                 //     .GetComponent<PlayerController>()
                 //     .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
             }
+        }
+    }
+
+
+    private void FindWeaponPlacement()
+    {
+        if (wielder == null)
+        {
+            Debug.LogError("Wielder is not assigned.");
+            return;
+        }
+
+
+        // Recursively search for the child named "weapon placement"
+        foreach (Transform child in wielder.GetComponentsInChildren<Transform>())
+        {
+            if (child.name == "WeaponPoint")
+            {
+                weaponPlacement = child;
+                break;
+            }
+        }
+
+        if (weaponPlacement != null)
+        {
+            Debug.Log("Weapon placement found: " + weaponPlacement.name);
+        }
+        else
+        {
+            Debug.LogError("Weapon placement not found in wielder's children.");
+        }
+    }
+
+    private void setWeaponPositionAndRotation()
+    {
+        if (weaponPlacement != null)
+        {
+
+            foreach (Transform child in handle.GetComponentsInChildren<Transform>())
+            {
+                if (child.name == "rightHandGrip")
+                {
+                    rightHandPlacement = child;
+                    break;
+                }
+            }
+
+            if (rightHandPlacement != null)
+            {
+                Debug.Log("Right hand placement found: " + rightHandPlacement.name);
+            }
+            else
+            {
+                Debug.LogError("right hand placement not found in wielder's children.");
+            }
+
+
+            transform.position = weaponPlacement.position;
+            transform.rotation = weaponPlacement.rotation;
+            transform.SetParent(weaponPlacement);
+
+            Debug.Log("Weapon attached to weapon placement point.");
+        }
+        else
+        {
+            Debug.LogError("Weapon placement not found under the wielder.");
         }
     }
 }

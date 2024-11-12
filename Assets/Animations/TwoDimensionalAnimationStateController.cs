@@ -7,6 +7,10 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     [Header("Controller")]
     public PlayerController playerController;
 
+
+    [Header("IKController")]
+    public IKConstraintController armController;
+
     [Header("Animator")]
     Animator animator;
     float velocityZ = 0.0f;
@@ -30,6 +34,9 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     {
         playerController = GetComponentInParent<PlayerController>();
         animator = GetComponent<Animator>();
+        armController = GetComponent<IKConstraintController>();
+        
+
 
         velocityZHash = Animator.StringToHash("Velocity Z");
         velocityXHash = Animator.StringToHash("Velocity X");
@@ -38,6 +45,27 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         {
             Debug.Log("PlayerController not found");
         }
+
+        gripWeapon();
+        getAnimationStyle();
+    }
+
+    void getAnimationStyle()
+    {
+        animator.runtimeAnimatorController = playerController.animationStyle;
+    }
+
+    void gripWeapon()
+    {
+        armController.rightHandTarget = playerController.rightHandGrip;
+        if (playerController.leftHandGrip == null)
+        {
+            armController.leftHandGrabWeapon.enabled = false;
+        } else
+        {
+            armController.leftHandTarget = playerController.rightHandGrip;
+        }
+        
     }
 
     void changeVelocity(
@@ -224,6 +252,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //getAnimationStyle();
         isLightAttacking = animator.GetBool("isAttacking1");
         isHeavyAttacking = animator.GetBool("isAttacking2");
         isSpecialAttacking = animator.GetBool("isAttacking3");

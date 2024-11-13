@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1567021246877657905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7831201726511247431}
+  - component: {fileID: 9052011927578849282}
+  - component: {fileID: 7869858973548910659}
+  m_Layer: 0
+  m_Name: GreatSword Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7831201726511247431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567021246877657905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.055023, y: 2.1787598, z: -9.370527}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9052011927578849282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567021246877657905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06c47267b085d54e91ed454fc107623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blade: {fileID: 0}
+  bladePrefabs:
+  - {fileID: 4568517260041092375, guid: 4377a9241f887384ea7ebc6edb5f9925, type: 3}
+  - {fileID: 1393658393790131038, guid: d4264a8ac33ab9742b9ec8edbb025d85, type: 3}
+  - {fileID: 5633653466101983259, guid: 9b3e5e4d46665244199ba1cf8c9e5bdd, type: 3}
+  - {fileID: 8061391650825608421, guid: 4eb41e80f66e11144957fef8345c4c04, type: 3}
+  handlePrefabs:
+  - {fileID: 7055287309591017783, guid: 09e06598e3072a24b963e2f6d4bcc65e, type: 3}
+  handle: {fileID: 0}
+  wielder: {fileID: 0}
+  animationStyle: {fileID: 0}
+  weaponPlacement: {fileID: 0}
+  rightHandPlacement: {fileID: 0}
+--- !u!114 &7869858973548910659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567021246877657905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

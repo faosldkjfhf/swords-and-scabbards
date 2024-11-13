@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour
+public class BetterPlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5.0f;
@@ -21,24 +21,23 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon List")]
     [SerializeField]
-    private List<GameObject> weaponPrefabs;
+    private GameObject handlePrefab;
 
     [Header("Weapon")]
     [SerializeField]
-    private EmptyWeapon weapon;
-    private ExampleBlade bladeStats;
+    private NewEmptyWeapon weaponData;
     public RuntimeAnimatorController animationStyle;
-    public float weaponWeight;
-    public Transform rightHandGrip;
-    public Transform leftHandGrip;
+    public GameObject weaponPoint;
+    public Transform rightHandPlacement;
+    public Transform leftHandPlacement;
 
-    [Header("Audio")]
-    public GameObject audioSpot;
-    public AudioSource[] sounds;
+
+
 
     [Header("RightHand")]
     public Transform hand;
 
+    [SerializeField]
     private float currentHealth;
 
     private float xRotation = 0.0f;
@@ -63,6 +62,8 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
+
+
 
     public enum actionEnum
     {
@@ -141,18 +142,10 @@ public class PlayerController : MonoBehaviour
 
         // Fire - placeholder for now
         lightAttack = playerInput.Player.Swing;
-        lightAttack.performed += ctx =>
-        {
-            audioSpot.transform.position = transform.position;
-            sounds[0].Play();
-        };
+        lightAttack.performed += OnSwing;
 
         heavyAttack = playerInput.Player.HeavyAttack;
-        heavyAttack.performed += ctx =>
-        {
-            audioSpot.transform.position = transform.position;
-            sounds[1].Play();
-        };
+        heavyAttack.performed += OnSwing;
 
         specialAttack = playerInput.Player.WeaponArt;
         specialAttack.performed += OnSwing;
@@ -188,6 +181,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = this.GetComponent<CharacterController>();
+        SelectAndEquipWeapon();
+        setGrip();
         camera = this.GetComponentInChildren<Camera>();
         animationController = this.GetComponentInChildren<TwoDimensionalAnimationStateController>();
         effects = this.GetComponent<Effects>();
@@ -196,97 +191,66 @@ public class PlayerController : MonoBehaviour
         currentStamina = maxStamina;
         currentHealth = GameManager.playerHealth;
 
-        SelectAndEquipWeapon();
-        setGrip();
-        ExampleBlade exampleBlade = GetComponentInChildren<ExampleBlade>();
-        if (exampleBlade != null)
+
+    }
+
+
+
+
+    private void SelectAndEquipWeapon()
+    {
+        if (handlePrefab == null)
         {
-            Debug.LogError("blade is is:" + bladeStats.name);
-            Debug.LogError(" blade weight is:" + bladeStats.WeightValue);
-            Debug.LogError("Found ExampleBlade component. Weight is: " + exampleBlade.WeightValue);
-            weaponWeight = exampleBlade.WeightValue; // Store the weight value
+            Debug.LogError("No weapon prefabs assigned.");
         }
-        else
-        {
-            Debug.LogError("ExampleBlade component not found in children.");
-        }
-        Debug.LogError("weapon is is:" + weapon.name);
-        Debug.LogError("weight is:" + weapon.weight);
-        Debug.LogError("DIFF weight is:" + gameObject.GetComponentInChildren<EmptyWeapon>().weight);
-        //weaponWeight = weapon.weight;
-        weaponWeight = bladeStats.WeightValue;
+
+        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 1.231f, transform.position.z);
+        Quaternion spawnRotation = Quaternion.Euler(270f, 0f, 0f);
+
+        // Instantiate the selected weapon at the calculated position in front of the current GameObject
+        GameObject weaponInstance = Instantiate(handlePrefab, spawnPosition, spawnRotation);
+
+        // Get the Weapon component
+        weaponData = weaponInstance.transform.parent.GetComponent<NewEmptyWeapon>();
+        weaponData.wielder = gameObject;
+        Debug.LogError("This Code ran");
+
+
     }
 
     public void setGrip()
     {
-        animationStyle = weapon.animationStyle;
+        animationStyle = weaponData.animationStyle;
 
-        if (weapon.handle != null)
+        if (weaponData.handle != null)
         {
-            rightHandGrip = weapon.handle.transform.Find("rightHandGrip");
-            leftHandGrip = weapon.handle.transform.Find("leftHandGrip");
-            if (rightHandGrip != null)
+
+
+
+            rightHandPlacement = weaponData.handle.transform.Find("rightHandPlacement");
+            leftHandPlacement = weaponData.handle.transform.Find("leftHandPlacement");
+
+            if (rightHandPlacement != null && leftHandPlacement != null)
             {
-                Debug.Log("Right hand grip set successfully.");
+                Debug.LogError("both Hands found");
+            }
+            else if (rightHandPlacement != null)
+            {
+                Debug.LogError("Right hand grip set successfully.");
+            }
+            else
+            {
+                Debug.LogError("Something went wrong with handle");
             }
 
-            if (rightHandGrip != null && leftHandGrip == null)
-            {
-                GetComponentInChildren<IKConstraintController>().leftHandGrabWeapon.enabled = false;
-                Debug.LogError("one handed weapon");
-            }
-
-            if (rightHandGrip != null && leftHandGrip != null)
-            {
-                Debug.LogError("grips succeeded");
-            }
-        }
-        else
-        {
-            Debug.LogError("Handle is missing from the weapon.");
         }
     }
 
-    private void SelectAndEquipWeapon()
-    {
-        if (weaponPrefabs.Count == 0)
-        {
-            Debug.LogError("No weapon prefabs assigned.");
-            return;
-        }
 
-        // Randomly select a weapon prefab
-        int randomIndex = UnityEngine.Random.Range(0, weaponPrefabs.Count);
-
-        Vector3 spawnPosition = new Vector3(
-            transform.position.x,
-            transform.position.y + 1.231f,
-            transform.position.y
-        );
-        Quaternion spawnRotation = Quaternion.Euler(90f, 0f, 0f);
-
-        // Instantiate the selected weapon at the calculated position in front of the current GameObject
-        GameObject weaponInstance = Instantiate(
-            weaponPrefabs[randomIndex],
-            spawnPosition,
-            spawnRotation
-        );
-
-        // Get the Weapon component
-        weapon = weaponInstance.GetComponent<EmptyWeapon>();
-        weapon.wielder = this.gameObject;
-        //weaponInstance.transform.SetParent(hand);
-        //Debug.LogError(weaponInstance.name);
-        //weaponInstance.transform.localPosition = new Vector3(-0.004f, -0.0088f, 0.0001f); // Adjust as needed
-        //weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
-        //weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
-        //Debug.Log("Weapon instantiated at default position.");
-    }
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("take damage");
-        effects.ScreenDamageEffect(damage / currentHealth);
+        effects.ScreenDamageEffect(damage / GameManager.playerHealth);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
 
@@ -303,7 +267,7 @@ public class PlayerController : MonoBehaviour
         PlayerLook();
         UpdateStamina();
 
-        weapon.setAttacking(animationController.isAttacking());
+        weaponData.setAttacking(animationController.isAttacking());
     }
 
     private void MovePlayer()
@@ -347,10 +311,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnSwing(InputAction.CallbackContext ctx)
     {
-        if (weapon)
+        if (weaponData)
         {
-            // TakeDamage(10);
-            weapon.Swing();
+            weaponData.Swing();
         }
         else
         {
@@ -380,4 +343,5 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("blocked");
     }
+
 }

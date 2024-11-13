@@ -31,4 +31,7 @@ public class ExampleHandle : MonoBehaviour, IHandle
         get { return dropChancePercentage; }
         set { dropChancePercentage = value; }
     }
+
+
+
 }

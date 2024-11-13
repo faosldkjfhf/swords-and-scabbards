@@ -19,7 +19,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public float decceleration = 2f;
     public float MaxWalk = 0.5f;
     public float MaxRun = 2.0f;
+    public float weight;
 
+
+    [SerializeField]
+    private RuntimeAnimatorController animationStyle;
     bool isLightAttacking = false;
     bool isHeavyAttacking = false;
     bool isSpecialAttacking = false;
@@ -43,28 +47,34 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
 
         if (!playerController)
         {
-            Debug.Log("PlayerController not found");
+            Debug.LogError("PlayerController not found");
         }
 
-        gripWeapon();
+        //gripWeapon();
         getAnimationStyle();
+        weight = playerController.weaponWeight;
+        Debug.LogError("YADAYDA");
+
+
+
     }
 
     void getAnimationStyle()
     {
         animator.runtimeAnimatorController = playerController.animationStyle;
+        animationStyle = animator.runtimeAnimatorController;
     }
 
     void gripWeapon()
     {
-        armController.rightHandTarget = playerController.rightHandGrip;
-        if (playerController.leftHandGrip == null)
-        {
-            armController.leftHandGrabWeapon.enabled = false;
-        } else
-        {
-            armController.leftHandTarget = playerController.rightHandGrip;
-        }
+        //armController.rightHandTarget = playerController.rightHandGrip;
+        //if (playerController.leftHandGrip == null)
+        //{
+           // armController.leftHandGrabWeapon.enabled = false;
+       // } else
+       // {
+            //armController.leftHandTarget = playerController.rightHandGrip;
+       // }
         
     }
 
@@ -252,7 +262,10 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //getAnimationStyle();
+        if(animationStyle == null)
+        {
+            getAnimationStyle();
+        }
         isLightAttacking = animator.GetBool("isAttacking1");
         isHeavyAttacking = animator.GetBool("isAttacking2");
         isSpecialAttacking = animator.GetBool("isAttacking3");
@@ -286,5 +299,15 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
 
         animator.SetFloat(velocityZHash, velocityZ);
         animator.SetFloat(velocityXHash, velocityX);
+        UpdateAnimationSpeed();
     }
+    private void UpdateAnimationSpeed()
+    {
+        if (animator != null)
+        {
+            // Set a float parameter in the Animator to influence specific animations
+            animator.SetFloat("AttackSpeed", weight);
+        }
+    }
+
 }

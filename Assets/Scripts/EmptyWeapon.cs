@@ -13,6 +13,8 @@ public class EmptyWeapon : MonoBehaviour
     public GameObject wielder;
     public RuntimeAnimatorController animationStyle;
 
+    public float weight;
+
     [SerializeField]
     private Transform weaponPlacement;
     [SerializeField]
@@ -30,6 +32,7 @@ public class EmptyWeapon : MonoBehaviour
     void Start()
     {
         connectToBlade();
+        weight = blade.GetComponent<ExampleBlade>().WeightValue;
         FindWeaponPlacement();
         setWeaponPositionAndRotation();
     }
@@ -218,4 +221,5 @@ public class EmptyWeapon : MonoBehaviour
             Debug.LogError("Weapon placement not found under the wielder.");
         }
     }
+
 }

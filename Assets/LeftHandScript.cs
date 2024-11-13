@@ -9,7 +9,7 @@ public class LeftHandScript : MonoBehaviour
 
     public TwoBoneIKConstraint ikConstraint; // Reference to the Two Bone IK Constraint
     private Transform leftHandGrip;
-    GameObject parent;
+    public GameObject parent;
     bool triedLeftHand = false;
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class LeftHandScript : MonoBehaviour
     {
         // Find the parent GameObject
         ikConstraint = GetComponent<TwoBoneIKConstraint>();
-        parent = transform.parent?.gameObject;
+        parent = transform.parent?.parent.gameObject;
         if (parent == null)
         {
             Debug.LogError("Parent GameObject not found!");
@@ -73,7 +73,7 @@ public class LeftHandScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        setLeftHand();
-        transform.position = leftHandGrip.transform.position;
+        //setLeftHand();
+        //transform.position = leftHandGrip.transform.position;
     }
 }

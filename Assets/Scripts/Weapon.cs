@@ -91,8 +91,12 @@ public class Weapon : MonoBehaviour
         blade.transform.SetParent(bladeHolder.transform);
 
         // Get the connection points on the blade and handle
-        Transform bladeConnectionPoint = blade.GetComponent<ExampleBlade>().handleConnectionPoint.transform;
-        Transform handleConnectionPoint = handle.GetComponent<ExampleHandle>().handleConnectionPoint.transform;
+        Transform bladeConnectionPoint = blade
+            .GetComponent<ExampleBlade>()
+            .handleConnectionPoint.transform;
+        Transform handleConnectionPoint = handle
+            .GetComponent<ExampleHandle>()
+            .handleConnectionPoint.transform;
 
         // Store the current global position and rotation of the blade connection point
         Vector3 bladeGlobalPosition = bladeConnectionPoint.position;
@@ -100,7 +104,8 @@ public class Weapon : MonoBehaviour
 
         // Calculate the global position and rotation offsets based on the connection points
         Vector3 positionOffset = handleConnectionPoint.position - bladeGlobalPosition;
-        Quaternion rotationOffset = handleConnectionPoint.rotation * Quaternion.Inverse(bladeGlobalRotation);
+        Quaternion rotationOffset =
+            handleConnectionPoint.rotation * Quaternion.Inverse(bladeGlobalRotation);
 
         // Parent the bladeHolder to the handle (this is the final step)
         bladeHolder.transform.SetParent(handle.transform);
@@ -123,9 +128,9 @@ public class Weapon : MonoBehaviour
             {
                 Debug.Log("Player hit");
                 dealtDamage = true;
-                // other.gameObject
-                //     .GetComponent<PlayerController>()
-                //     .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
+                other.gameObject
+                    .GetComponent<PlayerController>()
+                    .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
             }
         }
     }

@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandGrip;
     public Transform leftHandGrip;
 
-  
-
+    [Header("Audio")]
+    public GameObject audioSpot;
+    public AudioSource[] sounds;
 
     [Header("RightHand")]
     public Transform hand;
@@ -60,8 +61,6 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
-
-
 
     public enum actionEnum
     {
@@ -140,10 +139,18 @@ public class PlayerController : MonoBehaviour
 
         // Fire - placeholder for now
         lightAttack = playerInput.Player.Swing;
-        lightAttack.performed += OnSwing;
+        lightAttack.performed += ctx =>
+        {
+            audioSpot.transform.position = transform.position;
+            sounds[0].Play();
+        };
 
         heavyAttack = playerInput.Player.HeavyAttack;
-        heavyAttack.performed += OnSwing;
+        heavyAttack.performed += ctx =>
+        {
+            audioSpot.transform.position = transform.position;
+            sounds[1].Play();
+        };
 
         specialAttack = playerInput.Player.WeaponArt;
         specialAttack.performed += OnSwing;
@@ -192,7 +199,6 @@ public class PlayerController : MonoBehaviour
         setGrip();
     }
 
-
     public void setGrip()
     {
         animationStyle = weapon.animationStyle;
@@ -221,9 +227,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Handle is missing from the weapon.");
         }
-
     }
-
 
     private void SelectAndEquipWeapon()
     {
@@ -236,11 +240,19 @@ public class PlayerController : MonoBehaviour
         // Randomly select a weapon prefab
         int randomIndex = UnityEngine.Random.Range(0, weaponPrefabs.Count);
 
-        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 1.231f, transform.position.y);
+        Vector3 spawnPosition = new Vector3(
+            transform.position.x,
+            transform.position.y + 1.231f,
+            transform.position.y
+        );
         Quaternion spawnRotation = Quaternion.Euler(90f, 0f, 0f);
 
         // Instantiate the selected weapon at the calculated position in front of the current GameObject
-        GameObject weaponInstance = Instantiate(weaponPrefabs[randomIndex], spawnPosition, spawnRotation);
+        GameObject weaponInstance = Instantiate(
+            weaponPrefabs[randomIndex],
+            spawnPosition,
+            spawnRotation
+        );
 
         // Get the Weapon component
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
@@ -251,14 +263,12 @@ public class PlayerController : MonoBehaviour
         //weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
         //weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
         //Debug.Log("Weapon instantiated at default position.");
-
-    
-
     }
 
     public void TakeDamage(float damage)
     {
-        effects.ScreenDamageEffect(damage / GameManager.playerHealth);
+        Debug.Log("take damage");
+        effects.ScreenDamageEffect(damage / currentHealth);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
 
@@ -321,6 +331,7 @@ public class PlayerController : MonoBehaviour
     {
         if (weapon)
         {
+            // TakeDamage(10);
             weapon.Swing();
         }
         else

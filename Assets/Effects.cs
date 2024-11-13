@@ -15,10 +15,6 @@ public class Effects : MonoBehaviour
             StopCoroutine(screenDamageTask);
         }
         screenDamageTask = StartCoroutine(screenDamage(intensity));
-        {
-            StopCoroutine(screenDamageTask);
-        }
-        screenDamageTask = StartCoroutine(screenDamage(intensity));
     }
 
     IEnumerator screenDamage(float intensity)

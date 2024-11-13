@@ -56,7 +56,14 @@ MonoBehaviour:
   xSens: 30
   ySens: 30
   weight: 1
+  weaponPrefabs: []
   weapon: {fileID: 0}
+  animationStyle: {fileID: 0}
+  rightHandGrip: {fileID: 0}
+  leftHandGrip: {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: 3aa78f2c7b6834f4c9af628cffba030a, type: 3}
+  hand: {fileID: 0}
 --- !u!143 &3388768732014174863
 CharacterController:
   m_ObjectHideFlags: 0

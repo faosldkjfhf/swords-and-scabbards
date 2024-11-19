@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     public float deceleration = 5.0f;
     public float gravity = -9.81f;
+
     [SerializeField]
     private float Speedometer = 0;
 
@@ -36,10 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private ExampleBlade bladeStats;
 
-
     [SerializeField]
     private float wtf;
-
 
     public RuntimeAnimatorController animationStyle;
     public Transform rightHandGrip;
@@ -76,11 +75,14 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private float originalSpeed;
     private bool isSprinting = false;
+
     [SerializeField]
     private float currentStamina;
     private new Camera camera;
 
     private Rigidbody rb;
+
+    private static int id = 0;
 
     public enum actionEnum
     {
@@ -129,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        id++;
         PlayerInput input = this.GetComponentInChildren<PlayerInput>();
 
         user = InputUser.PerformPairingWithDevice(input.devices[0]);
@@ -160,21 +163,22 @@ public class PlayerController : MonoBehaviour
 
         // Fire - placeholder for now
         lightAttack = playerInput.Player.Swing;
-        lightAttack.performed += ctx =>
-        {
-            audioSpot.transform.position = transform.position;
-            sounds[0].Play();
-        };
+        lightAttack.performed += OnSwing;
+        // lightAttack.performed += ctx =>
+        // {
+        //     audioSpot.transform.position = transform.position;
+        //     sounds[0].Play();
+        // };
 
         heavyAttack = playerInput.Player.HeavyAttack;
-        heavyAttack.performed += ctx =>
-        {
-            audioSpot.transform.position = transform.position;
-            sounds[1].Play();
-        };
+        // heavyAttack.performed += ctx =>
+        // {
+        //     audioSpot.transform.position = transform.position;
+        //     sounds[1].Play();
+        // };
 
         specialAttack = playerInput.Player.WeaponArt;
-        specialAttack.performed += OnSwing;
+        // specialAttack.performed += OnSwing;
 
         // Block - placeholder for now
         block = playerInput.Player.Block;
@@ -220,20 +224,20 @@ public class PlayerController : MonoBehaviour
         ExampleBlade exampleBlade = GetComponentInChildren<ExampleBlade>();
         if (exampleBlade != null)
         {
-            Debug.LogError("blade is is:" + bladeStats.name);
-            Debug.LogError(" blade weight is:" + bladeStats.WeightValue);
-            Debug.LogError("Found ExampleBlade component. Weight is: " + exampleBlade.WeightValue);
+            // Debug.LogError("blade is is:" + bladeStats.name);
+            // Debug.LogError(" blade weight is:" + bladeStats.WeightValue);
+            // Debug.LogError("Found ExampleBlade component. Weight is: " + exampleBlade.WeightValue);
             //weight = exampleBlade.WeightValue; // Store the weight value
         }
         else
         {
-            Debug.LogError("ExampleBlade component not found in children.");
+            // Debug.LogError("ExampleBlade component not found in children.");
         }
-        Debug.LogError("weapon is is:" + weapon.name);
-        Debug.LogError("weight is:" + weapon.weight);
-        Debug.LogError("DIFF weight is:" + gameObject.GetComponentInChildren<EmptyWeapon>().weight);
+        // Debug.LogError("weapon is is:" + weapon.name);
+        // Debug.LogError("weight is:" + weapon.weight);
+        // Debug.LogError("DIFF weight is:" + gameObject.GetComponentInChildren<EmptyWeapon>().weight);
         //weaponWeight = weapon.weight;
-       // weight = bladeStats.WeightValue;
+        // weight = bladeStats.WeightValue;
     }
 
     public void setGrip()
@@ -246,23 +250,23 @@ public class PlayerController : MonoBehaviour
             leftHandGrip = weapon.handle.transform.Find("leftHandGrip");
             if (rightHandGrip != null)
             {
-                Debug.Log("Right hand grip set successfully.");
+                // Debug.Log("Right hand grip set successfully.");
             }
 
             if (rightHandGrip != null && leftHandGrip == null)
             {
                 GetComponentInChildren<IKConstraintController>().leftHandGrabWeapon.enabled = false;
-                Debug.LogError("one handed weapon");
+                // Debug.LogError("one handed weapon");
             }
 
             if (rightHandGrip != null && leftHandGrip != null)
             {
-                Debug.LogError("grips succeeded");
+                // Debug.LogError("grips succeeded");
             }
         }
         else
         {
-            Debug.LogError("Handle is missing from the weapon.");
+            // Debug.LogError("Handle is missing from the weapon.");
         }
     }
 
@@ -270,7 +274,7 @@ public class PlayerController : MonoBehaviour
     {
         if (weaponPrefabs.Count == 0)
         {
-            Debug.LogError("No weapon prefabs assigned.");
+            // Debug.LogError("No weapon prefabs assigned.");
             return;
         }
 
@@ -294,8 +298,8 @@ public class PlayerController : MonoBehaviour
         // Get the Weapon component
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
         bladeStats = weapon.blade.GetComponent<ExampleBlade>();
-        Debug.LogError(bladeStats.WeightValue + " <--- ASSIGNMENT CALL");
-        Debug.LogError(weapon.blade.GetComponent<ExampleBlade>().WeightValue + " <--- DIRECT CALL");
+        // Debug.LogError(bladeStats.WeightValue + " <--- ASSIGNMENT CALL");
+        // Debug.LogError(weapon.blade.GetComponent<ExampleBlade>().WeightValue + " <--- DIRECT CALL");
         weight = bladeStats.WeightValue;
         wtf = bladeStats.WeightValue;
         weapon.wielder = this.gameObject;
@@ -309,7 +313,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("take damage");
+        Debug.Log(this.gameObject.name + "took " + damage + " damage");
         effects.ScreenDamageEffect(damage / currentHealth);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
@@ -317,6 +321,7 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0)
         {
             GameManager.running = false;
+            Debug.Log(id + " DIED");
         }
     }
 
@@ -370,7 +375,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log(currentStamina);
+        // Debug.Log(currentStamina);
     }
 
     private void PlayerLook()
@@ -410,7 +415,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
-        Debug.Log("moved");
+        // Debug.Log("moved");
         moveDirection = ctx.ReadValue<Vector2>();
     }
 
@@ -418,7 +423,6 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("blocked");
     }
-
 
     private void UpdateMovement()
     {
@@ -433,8 +437,11 @@ public class PlayerController : MonoBehaviour
         float maxSpeed = isSprinting ? moveSpeed * 1.5f : moveSpeed;
 
         // Update current speed with acceleration or deceleration
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed * targetMove.magnitude,
-                                         (targetMove.magnitude > 0 ? acceleration : deceleration) * Time.deltaTime);
+        currentSpeed = Mathf.MoveTowards(
+            currentSpeed,
+            targetSpeed * targetMove.magnitude,
+            (targetMove.magnitude > 0 ? acceleration : deceleration) * Time.deltaTime
+        );
 
         currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed); // Ensure speed doesn't exceed the cap
 
@@ -443,7 +450,6 @@ public class PlayerController : MonoBehaviour
         Speedometer = currentSpeed;
         currentMove.y = velocity.y; // Preserve vertical velocity for gravity
     }
-
 
     private void ApplyGravity()
     {
@@ -455,9 +461,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             velocity.y += gravity * Time.deltaTime; // Apply gravity
-            //Debug.LogError("Gravity is being applied");
-           // Debug.LogError(velocity);
         }
     }
-
 }

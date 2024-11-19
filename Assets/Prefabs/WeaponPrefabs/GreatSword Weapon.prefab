@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7831201726511247431}
   - component: {fileID: 9052011927578849282}
   - component: {fileID: 7869858973548910659}
+  - component: {fileID: 2998981448377932669}
   m_Layer: 0
   m_Name: GreatSword Weapon
   m_TagString: Untagged
@@ -56,8 +57,10 @@ MonoBehaviour:
   handle: {fileID: 0}
   wielder: {fileID: 0}
   animationStyle: {fileID: 0}
+  weight: 0
   weaponPlacement: {fileID: 0}
   rightHandPlacement: {fileID: 0}
+  bladeCollider: {fileID: 2998981448377932669}
 --- !u!114 &7869858973548910659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,3 +73,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &2998981448377932669
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567021246877657905}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}

@@ -27,15 +27,13 @@ public class Weapon : MonoBehaviour
     void Start()
     {
         connectToBlade();
+        Debug.Log("weapon made");
     }
 
     // Update is called once per frame
     void Update() { }
 
-    public void Swing()
-    {
-        Debug.Log("weapon swung");
-    }
+    public void Swing() { }
 
     public void setAttacking(bool attacking)
     {
@@ -120,18 +118,24 @@ public class Weapon : MonoBehaviour
         Debug.Log("Blade connected to handle through BladeHolder.");
     }
 
-    public void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (isAttacking && !dealtDamage)
-        {
-            if (other.gameObject.CompareTag("Player") && other.gameObject != wielder)
-            {
-                Debug.Log("Player hit");
-                dealtDamage = true;
-                other.gameObject
-                    .GetComponent<PlayerController>()
-                    .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
-            }
-        }
+        Debug.Log("collided");
+        // if (isAttacking && !dealtDamage)
+        // {
+        //     if (other.gameObject.CompareTag("Player") && other.gameObject != wielder)
+        //     {
+        //         Debug.Log("Player hit");
+        //         dealtDamage = true;
+        //         other.gameObject
+        //             .GetComponent<PlayerController>()
+        //             .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
+        //     }
+        // }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Triggered");
     }
 }

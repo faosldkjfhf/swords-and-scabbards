@@ -17,10 +17,9 @@ public class EmptyWeapon : MonoBehaviour
 
     [SerializeField]
     private Transform weaponPlacement;
+
     [SerializeField]
     private Transform rightHandPlacement;
-
-
 
     // Start is called before the first frame update
     void Awake()
@@ -28,6 +27,7 @@ public class EmptyWeapon : MonoBehaviour
         SelectAndCreateBlade();
         SelectAndCreateHandle();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,7 +92,7 @@ public class EmptyWeapon : MonoBehaviour
 
         // Optionally, you can set the blade's position here if needed
         handle.transform.position = transform.position;
-        handle.transform.rotation = transform.rotation;// Example: instantiate at origin
+        handle.transform.rotation = transform.rotation; // Example: instantiate at origin
         animationStyle = handle.GetComponent<ExampleHandle>().animationStyle;
 
         Debug.Log("handle created: " + handle.name);
@@ -118,10 +118,13 @@ public class EmptyWeapon : MonoBehaviour
         transform.position = handle.transform.position;
         transform.rotation = handle.transform.rotation;
 
-
         // Get the connection points on the blade and handle
-        Transform bladeConnectionPoint = blade.GetComponent<ExampleBlade>().handleConnectionPoint.transform;
-        Transform handleConnectionPoint = handle.GetComponent<ExampleHandle>().handleConnectionPoint.transform;
+        Transform bladeConnectionPoint = blade
+            .GetComponent<ExampleBlade>()
+            .handleConnectionPoint.transform;
+        Transform handleConnectionPoint = handle
+            .GetComponent<ExampleHandle>()
+            .handleConnectionPoint.transform;
 
         // Match the position and rotation of the blade to the handle's connection point
         blade.transform.position = handleConnectionPoint.position;
@@ -141,22 +144,6 @@ public class EmptyWeapon : MonoBehaviour
         gameObject.name = blade.name + handle.name;
     }
 
-    public void OnCollisionEnter(Collision other)
-    {
-        if (isAttacking && !dealtDamage)
-        {
-            if (other.gameObject.CompareTag("Player") && other.gameObject != wielder)
-            {
-                Debug.Log("Player hit");
-                dealtDamage = true;
-                // other.gameObject
-                //     .GetComponent<PlayerController>()
-                //     .TakeDamage(blade.GetComponent<IBlade>().DamageValue);
-            }
-        }
-    }
-
-
     private void FindWeaponPlacement()
     {
         if (wielder == null)
@@ -164,7 +151,6 @@ public class EmptyWeapon : MonoBehaviour
             Debug.LogError("Wielder is not assigned.");
             return;
         }
-
 
         // Recursively search for the child named "weapon placement"
         foreach (Transform child in wielder.GetComponentsInChildren<Transform>())
@@ -190,7 +176,6 @@ public class EmptyWeapon : MonoBehaviour
     {
         if (weaponPlacement != null)
         {
-
             foreach (Transform child in handle.GetComponentsInChildren<Transform>())
             {
                 if (child.name == "rightHandGrip")
@@ -209,7 +194,6 @@ public class EmptyWeapon : MonoBehaviour
                 Debug.LogError("right hand placement not found in wielder's children.");
             }
 
-
             transform.position = weaponPlacement.position;
             transform.rotation = weaponPlacement.rotation;
             transform.SetParent(weaponPlacement);
@@ -221,5 +205,4 @@ public class EmptyWeapon : MonoBehaviour
             Debug.LogError("Weapon placement not found under the wielder.");
         }
     }
-
 }

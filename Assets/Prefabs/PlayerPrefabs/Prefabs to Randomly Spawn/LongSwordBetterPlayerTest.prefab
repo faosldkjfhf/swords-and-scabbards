@@ -1367,7 +1367,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1349024910657317225, guid: 81bb9eea30387e442899949a80011e55, type: 3}
+  - {fileID: 2100000, guid: 999095ec2f05649438898c7989a41912, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1834,6 +1834,7 @@ GameObject:
   - component: {fileID: 2868950923851595720}
   - component: {fileID: 8650562149772019159}
   - component: {fileID: 8005075983666495908}
+  - component: {fileID: 7274814337588271308}
   m_Layer: 0
   m_Name: LongSwordBetterPlayerTest
   m_TagString: Player
@@ -1874,16 +1875,25 @@ MonoBehaviour:
   maxStamina: 100
   staminaDecay: 20
   staminaRegen: 10
+  acceleration: 10
+  deceleration: 5
+  gravity: -9.81
+  Speedometer: 0
   xSens: 30
   ySens: 30
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: 76c16fa2bdb311649bfa59f8f8167b4c, type: 3}
   weapon: {fileID: 0}
+  bladeStats: {fileID: 0}
+  wtf: 0
   animationStyle: {fileID: 9100000, guid: eacc7c4f039defd4cabcbc9e07226f9a, type: 2}
   rightHandGrip: {fileID: 0}
   leftHandGrip: {fileID: 0}
+  audioSpot: {fileID: 0}
+  sounds: []
   hand: {fileID: 2387824983330801344}
+  currentStamina: 0
 --- !u!143 &8005075983666495908
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1910,6 +1920,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7274814337588271308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057832721145410356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c625d2c49ea9d44c9907833941a89e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenDamageMat: {fileID: 2100000, guid: 7bbc6c70c83b049458adf8f0f70b19b3, type: 2}
 --- !u!1 &5278592728145751947
 GameObject:
   m_ObjectHideFlags: 0
@@ -2249,6 +2272,7 @@ MonoBehaviour:
   decceleration: 2
   MaxWalk: 0.5
   MaxRun: 2
+  weight: 0
   animationStyle: {fileID: 9100000, guid: eacc7c4f039defd4cabcbc9e07226f9a, type: 2}
 --- !u!114 &134558709799530668
 MonoBehaviour:
@@ -3139,7 +3163,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9103484930961366303, guid: 81bb9eea30387e442899949a80011e55, type: 3}
+  - {fileID: 2100000, guid: 999095ec2f05649438898c7989a41912, type: 2}
   - {fileID: -1349024910657317225, guid: 81bb9eea30387e442899949a80011e55, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0

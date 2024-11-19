@@ -7,6 +7,4 @@ public interface IBlade
     float WeightValue { get; set; }
 
     GameObject HandleConnectionPoint { get; set; }
-
-    void OnBladeTriggerEnter(Collider other);
 }

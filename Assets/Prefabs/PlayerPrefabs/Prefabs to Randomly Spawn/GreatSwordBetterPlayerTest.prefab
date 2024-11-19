@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 262303741196857660}
   - component: {fileID: 8736790713898530910}
   - component: {fileID: 9114101311787734712}
+  - component: {fileID: 5060602378835077528}
   m_Layer: 0
   m_Name: GreatSwordBetterPlayerTest
   m_TagString: Player
@@ -113,16 +114,25 @@ MonoBehaviour:
   maxStamina: 100
   staminaDecay: 20
   staminaRegen: 10
+  acceleration: 10
+  deceleration: 5
+  gravity: -9.81
+  Speedometer: 0
   xSens: 30
   ySens: 30
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: e881b377f7325134cb801037357de651, type: 3}
   weapon: {fileID: 0}
+  bladeStats: {fileID: 0}
+  wtf: 0
   animationStyle: {fileID: 0}
   rightHandGrip: {fileID: 0}
   leftHandGrip: {fileID: 0}
+  audioSpot: {fileID: 0}
+  sounds: []
   hand: {fileID: 7117068346306983388}
+  currentStamina: 0
 --- !u!143 &9114101311787734712
 CharacterController:
   m_ObjectHideFlags: 0
@@ -149,6 +159,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5060602378835077528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4396706883733631357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c625d2c49ea9d44c9907833941a89e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenDamageMat: {fileID: 2100000, guid: 7bbc6c70c83b049458adf8f0f70b19b3, type: 2}
 --- !u!1 &5451532450907275140
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +415,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7471543825201273452, guid: 2ec4b0103650a0847adf3cdd482067bb, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8219342759289309821, guid: 2ec4b0103650a0847adf3cdd482067bb, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -467,6 +494,14 @@ PrefabInstance:
       propertyPath: m_RigLayers.Array.data[1].m_Active
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5154519334857253278, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 999095ec2f05649438898c7989a41912, type: 2}
+    - target: {fileID: 5364877652314114450, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 999095ec2f05649438898c7989a41912, type: 2}
     - target: {fileID: 6221617900156952259, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
       propertyPath: m_Radius
       value: 1

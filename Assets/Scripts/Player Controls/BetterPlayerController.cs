@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using System.Collections.Generic;
 
 public class BetterPlayerController : MonoBehaviour
 {
@@ -30,9 +30,6 @@ public class BetterPlayerController : MonoBehaviour
     public GameObject weaponPoint;
     public Transform rightHandPlacement;
     public Transform leftHandPlacement;
-
-
-
 
     [Header("RightHand")]
     public Transform hand;
@@ -62,8 +59,6 @@ public class BetterPlayerController : MonoBehaviour
     private bool isSprinting = false;
     private float currentStamina;
     private new Camera camera;
-
-
 
     public enum actionEnum
     {
@@ -190,12 +185,7 @@ public class BetterPlayerController : MonoBehaviour
         originalSpeed = moveSpeed;
         currentStamina = maxStamina;
         currentHealth = GameManager.playerHealth;
-
-
     }
-
-
-
 
     private void SelectAndEquipWeapon()
     {
@@ -204,7 +194,11 @@ public class BetterPlayerController : MonoBehaviour
             Debug.LogError("No weapon prefabs assigned.");
         }
 
-        Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y + 1.231f, transform.position.z);
+        Vector3 spawnPosition = new Vector3(
+            transform.position.x,
+            transform.position.y + 1.231f,
+            transform.position.z
+        );
         Quaternion spawnRotation = Quaternion.Euler(270f, 0f, 0f);
 
         // Instantiate the selected weapon at the calculated position in front of the current GameObject
@@ -214,8 +208,6 @@ public class BetterPlayerController : MonoBehaviour
         weaponData = weaponInstance.transform.parent.GetComponent<NewEmptyWeapon>();
         weaponData.wielder = gameObject;
         Debug.LogError("This Code ran");
-
-
     }
 
     public void setGrip()
@@ -224,9 +216,6 @@ public class BetterPlayerController : MonoBehaviour
 
         if (weaponData.handle != null)
         {
-
-
-
             rightHandPlacement = weaponData.handle.transform.Find("rightHandPlacement");
             leftHandPlacement = weaponData.handle.transform.Find("leftHandPlacement");
 
@@ -242,11 +231,8 @@ public class BetterPlayerController : MonoBehaviour
             {
                 Debug.LogError("Something went wrong with handle");
             }
-
         }
     }
-
-
 
     public void TakeDamage(float damage)
     {
@@ -343,5 +329,4 @@ public class BetterPlayerController : MonoBehaviour
     {
         Debug.Log("blocked");
     }
-
 }

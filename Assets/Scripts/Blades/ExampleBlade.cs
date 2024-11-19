@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class ExampleBlade : MonoBehaviour, IBlade
@@ -7,6 +9,7 @@ public class ExampleBlade : MonoBehaviour, IBlade
     [Header("Blade Properties")]
     [SerializeField]
     private float damageValue;
+
     [SerializeField]
     private float weightValue;
 
@@ -32,8 +35,13 @@ public class ExampleBlade : MonoBehaviour, IBlade
         set { handleConnectionPoint = value; }
     }
 
-    public void OnBladeTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        throw new System.NotImplementedException();
+        int selfId = this.GetComponentInParent<PlayerController>().GetInstanceID();
+        int otherId = other.GetComponent<PlayerController>().GetInstanceID();
+        if (other.gameObject.CompareTag("Player") && otherId != selfId)
+        {
+            other.gameObject.GetComponent<PlayerController>().TakeDamage(damageValue);
+        }
     }
 }

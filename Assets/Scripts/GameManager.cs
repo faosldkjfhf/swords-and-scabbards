@@ -11,7 +11,18 @@ public class GameManager : MonoBehaviour
     [Header("Game Status")]
     public static bool running = true;
 
-    private void Awake() { }
+    private void Awake()
+    {
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            UnlockCursor();
+        }
+        else
+        {
+            Debug.Log("locking cursor");
+            LockCursor();
+        }
+    }
 
     public void LockCursor()
     {

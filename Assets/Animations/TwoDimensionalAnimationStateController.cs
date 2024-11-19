@@ -19,7 +19,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public float decceleration = 2f;
     public float MaxWalk = 0.5f;
     public float MaxRun = 2.0f;
-    public float weight;
+    public float weight = 0;
 
 
     [SerializeField]
@@ -52,7 +52,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
 
         //gripWeapon();
         getAnimationStyle();
-        weight = playerController.weaponWeight;
+        weight = playerController.weight;
         Debug.LogError("YADAYDA");
 
 
@@ -305,6 +305,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     {
         if (animator != null)
         {
+            weight = playerController.weight;
             // Set a float parameter in the Animator to influence specific animations
             animator.SetFloat("AttackSpeed", weight);
         }

@@ -11,13 +11,19 @@ public class PlayerController : MonoBehaviour
     public float maxStamina = 100.0f;
     public float staminaDecay = 20.0f;
     public float staminaRegen = 10.0f;
+    public float acceleration = 10.0f;
+    private Vector3 velocity;
+    public float deceleration = 5.0f;
+    public float gravity = -9.81f;
+    [SerializeField]
+    private float Speedometer = 0;
 
     [Header("Sensitivity")]
     public float xSens = 30.0f;
     public float ySens = 30.0f;
 
     [Header("Physics")]
-    public double weight = 1.0f;
+    public float weight = 1.0f;
 
     [Header("Weapon List")]
     [SerializeField]
@@ -26,9 +32,16 @@ public class PlayerController : MonoBehaviour
     [Header("Weapon")]
     [SerializeField]
     private EmptyWeapon weapon;
+
+    [SerializeField]
     private ExampleBlade bladeStats;
+
+
+    [SerializeField]
+    private float wtf;
+
+
     public RuntimeAnimatorController animationStyle;
-    public float weaponWeight;
     public Transform rightHandGrip;
     public Transform leftHandGrip;
 
@@ -56,13 +69,18 @@ public class PlayerController : MonoBehaviour
     private InputAction specialAttack;
     private Effects effects;
 
+    private Vector3 currentMove = Vector3.zero;
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lookPosition = Vector2.zero;
+    private float currentSpeed = 0f;
     private CharacterController controller;
     private float originalSpeed;
     private bool isSprinting = false;
+    [SerializeField]
     private float currentStamina;
     private new Camera camera;
+
+    private Rigidbody rb;
 
     public enum actionEnum
     {
@@ -123,6 +141,7 @@ public class PlayerController : MonoBehaviour
         }
         playerInput = new PlayerInputActions();
         user.AssociateActionsWithUser(playerInput);
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -204,7 +223,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("blade is is:" + bladeStats.name);
             Debug.LogError(" blade weight is:" + bladeStats.WeightValue);
             Debug.LogError("Found ExampleBlade component. Weight is: " + exampleBlade.WeightValue);
-            weaponWeight = exampleBlade.WeightValue; // Store the weight value
+            //weight = exampleBlade.WeightValue; // Store the weight value
         }
         else
         {
@@ -214,7 +233,7 @@ public class PlayerController : MonoBehaviour
         Debug.LogError("weight is:" + weapon.weight);
         Debug.LogError("DIFF weight is:" + gameObject.GetComponentInChildren<EmptyWeapon>().weight);
         //weaponWeight = weapon.weight;
-        weaponWeight = bladeStats.WeightValue;
+       // weight = bladeStats.WeightValue;
     }
 
     public void setGrip()
@@ -274,6 +293,11 @@ public class PlayerController : MonoBehaviour
 
         // Get the Weapon component
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
+        bladeStats = weapon.blade.GetComponent<ExampleBlade>();
+        Debug.LogError(bladeStats.WeightValue + " <--- ASSIGNMENT CALL");
+        Debug.LogError(weapon.blade.GetComponent<ExampleBlade>().WeightValue + " <--- DIRECT CALL");
+        weight = bladeStats.WeightValue;
+        wtf = bladeStats.WeightValue;
         weapon.wielder = this.gameObject;
         //weaponInstance.transform.SetParent(hand);
         //Debug.LogError(weaponInstance.name);
@@ -299,17 +323,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
+        //MovePlayer();
+        UpdateMovement();
         PlayerLook();
         UpdateStamina();
+        ApplyGravity();
+        controller.Move(currentMove * Time.deltaTime);
 
         weapon.setAttacking(animationController.isAttacking());
+        //weight = exampleBlade.WeightValue; // Store the weight value
     }
 
     private void MovePlayer()
     {
         Vector3 moveVec = new Vector3(moveDirection.x, 0, moveDirection.y);
-        controller.Move(moveSpeed * Time.deltaTime * transform.TransformDirection(moveVec));
+        //controller.Move(moveSpeed * Time.deltaTime * transform.TransformDirection(moveVec));
+
+        // Transform the movement vector to be relative to the player's current rotation
+        Vector3 worldMove = transform.TransformDirection(moveVec);
+
+        // Apply movement speed and keep the current vertical velocity
+        Vector3 velocity = worldMove * moveSpeed;
+        velocity.y = rb.velocity.y; // Retain the vertical velocity (for jumping or falling)
+
+        //Set the Rigidbody's velocity
+        rb.velocity = velocity;
     }
 
     private void UpdateStamina()
@@ -380,4 +418,46 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("blocked");
     }
+
+
+    private void UpdateMovement()
+    {
+        // Calculate target movement direction
+        Vector3 targetMove = new Vector3(moveDirection.x, 0, moveDirection.y);
+        targetMove = transform.TransformDirection(targetMove); // Make movement relative to player rotation
+
+        // Adjust speed based on acceleration or deceleration
+        float targetSpeed = isSprinting ? moveSpeed * 1.5f : moveSpeed;
+
+        // Cap the speed to the maximum allowed speed
+        float maxSpeed = isSprinting ? moveSpeed * 1.5f : moveSpeed;
+
+        // Update current speed with acceleration or deceleration
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed * targetMove.magnitude,
+                                         (targetMove.magnitude > 0 ? acceleration : deceleration) * Time.deltaTime);
+
+        currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed); // Ensure speed doesn't exceed the cap
+
+        // Calculate final movement vector
+        currentMove = targetMove * currentSpeed;
+        Speedometer = currentSpeed;
+        currentMove.y = velocity.y; // Preserve vertical velocity for gravity
+    }
+
+
+    private void ApplyGravity()
+    {
+        if (controller.isGrounded)
+        {
+            velocity.y = -2f;
+            // Small downward force to keep grounded
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime; // Apply gravity
+            //Debug.LogError("Gravity is being applied");
+           // Debug.LogError(velocity);
+        }
+    }
+
 }

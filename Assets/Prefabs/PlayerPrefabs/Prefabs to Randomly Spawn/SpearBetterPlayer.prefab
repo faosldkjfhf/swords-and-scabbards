@@ -2991,7 +2991,7 @@ MonoBehaviour:
   weapon: {fileID: 0}
   bladeStats: {fileID: 0}
   wtf: 0
-  animationStyle: {fileID: 9100000, guid: eacc7c4f039defd4cabcbc9e07226f9a, type: 2}
+  animationStyle: {fileID: 9100000, guid: 9a8eb4f39e50e844ab5d016d1df9977d, type: 2}
   rightHandGrip: {fileID: 0}
   leftHandGrip: {fileID: 0}
   audioSpot: {fileID: 0}

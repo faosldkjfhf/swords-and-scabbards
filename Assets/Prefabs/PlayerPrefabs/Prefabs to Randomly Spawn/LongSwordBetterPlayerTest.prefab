@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 2127491657993468157}
   m_Layer: 0
   m_Name: RightForearmHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 4506890355465122912}
   m_Layer: 0
   m_Name: LeftArmHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 1234987586560798305}
   m_Layer: 0
   m_Name: headHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 3552412445301778163}
   m_Layer: 0
   m_Name: LeftThighHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1683,7 +1683,7 @@ GameObject:
   - component: {fileID: 792116821819301109}
   m_Layer: 0
   m_Name: TorsoHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1895,7 +1895,7 @@ GameObject:
   - component: {fileID: 8547025647982523913}
   m_Layer: 0
   m_Name: LeftFootHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2097,7 +2097,7 @@ GameObject:
   - component: {fileID: 5670972082951193088}
   m_Layer: 0
   m_Name: LeftForearmHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2417,7 +2417,7 @@ GameObject:
   - component: {fileID: 5680271653789515971}
   m_Layer: 0
   m_Name: RightArmHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2470,7 +2470,7 @@ GameObject:
   - component: {fileID: 3824108043385930898}
   m_Layer: 0
   m_Name: RightLowerLegHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2819,7 +2819,7 @@ GameObject:
   - component: {fileID: 6606081753842044764}
   m_Layer: 0
   m_Name: RightFootHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3216,7 +3216,7 @@ GameObject:
   - component: {fileID: 668078321332267510}
   m_Layer: 0
   m_Name: RightLowerlegHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3718,7 +3718,7 @@ GameObject:
   - component: {fileID: 3671805126550398725}
   m_Layer: 0
   m_Name: RightThighHitbox
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

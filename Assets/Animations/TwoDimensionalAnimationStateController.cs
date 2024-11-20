@@ -7,9 +7,10 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     [Header("Controller")]
     public PlayerController playerController;
 
-
     [Header("IKController")]
     public IKConstraintController armController;
+
+    private EmptyWeapon weapon;
 
     [Header("Animator")]
     Animator animator;
@@ -20,7 +21,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public float MaxWalk = 0.5f;
     public float MaxRun = 2.0f;
     public float weight = 0;
-
 
     [SerializeField]
     private RuntimeAnimatorController animationStyle;
@@ -37,10 +37,9 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     void Start()
     {
         playerController = GetComponentInParent<PlayerController>();
+        weapon = playerController.GetWeapon();
         animator = GetComponent<Animator>();
         armController = GetComponent<IKConstraintController>();
-        
-
 
         velocityZHash = Animator.StringToHash("Velocity Z");
         velocityXHash = Animator.StringToHash("Velocity X");
@@ -54,9 +53,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         getAnimationStyle();
         weight = playerController.weight;
         Debug.LogError("YADAYDA");
-
-
-
     }
 
     void getAnimationStyle()
@@ -70,12 +66,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         //armController.rightHandTarget = playerController.rightHandGrip;
         //if (playerController.leftHandGrip == null)
         //{
-           // armController.leftHandGrabWeapon.enabled = false;
-       // } else
-       // {
-            //armController.leftHandTarget = playerController.rightHandGrip;
-       // }
-        
+        // armController.leftHandGrabWeapon.enabled = false;
+        // } else
+        // {
+        //armController.leftHandTarget = playerController.rightHandGrip;
+        // }
     }
 
     void changeVelocity(
@@ -262,14 +257,24 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(animationStyle == null)
+        if (animationStyle == null)
         {
             getAnimationStyle();
         }
+
         isLightAttacking = animator.GetBool("isAttacking1");
         isHeavyAttacking = animator.GetBool("isAttacking2");
         isSpecialAttacking = animator.GetBool("isAttacking3");
         isBlocking = animator.GetBool("isBlocking");
+
+        if (isLightAttacking || isHeavyAttacking || isSpecialAttacking)
+        {
+            weapon.setAttacking(true);
+        }
+        else
+        {
+            weapon.setAttacking(false);
+        }
 
         handleAttackAnimation();
         bool forwardPressed = playerController.GetMoveDirection().y > 0;
@@ -301,6 +306,7 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         animator.SetFloat(velocityXHash, velocityX);
         UpdateAnimationSpeed();
     }
+
     private void UpdateAnimationSpeed()
     {
         if (animator != null)
@@ -310,5 +316,4 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
             animator.SetFloat("AttackSpeed", weight);
         }
     }
-
 }

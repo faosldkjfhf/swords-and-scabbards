@@ -74,7 +74,7 @@ public class EmptyWeapon : MonoBehaviour
     {
         if (bladePrefabs.Count == 0)
         {
-            Debug.LogError("No blade prefabs assigned to the weapon.");
+            // Debug.LogError("No blade prefabs assigned to the weapon.");
             return;
         }
 
@@ -88,14 +88,14 @@ public class EmptyWeapon : MonoBehaviour
         blade.transform.position = transform.position;
         blade.transform.rotation = transform.rotation; // Example: instantiate at origin
 
-        Debug.Log("Blade created: " + blade.name);
+        // Debug.Log("Blade created: " + blade.name);
     }
 
     public void SelectAndCreateHandle()
     {
         if (handlePrefabs.Count == 0)
         {
-            Debug.LogError("No handle prefabs assigned to the weapon.");
+            // Debug.LogError("No handle prefabs assigned to the weapon.");
             return;
         }
 
@@ -110,7 +110,7 @@ public class EmptyWeapon : MonoBehaviour
         handle.transform.rotation = transform.rotation; // Example: instantiate at origin
         animationStyle = handle.GetComponent<ExampleHandle>().animationStyle;
 
-        Debug.Log("handle created: " + handle.name);
+        // Debug.Log("handle created: " + handle.name);
     }
 
     public GameObject getBlade()
@@ -122,7 +122,7 @@ public class EmptyWeapon : MonoBehaviour
     {
         if (blade == null || handle == null)
         {
-            Debug.LogError("Blade or handle is missing.");
+            // Debug.LogError("Blade or handle is missing.");
             return;
         }
 
@@ -155,7 +155,7 @@ public class EmptyWeapon : MonoBehaviour
         handle.transform.SetParent(transform);
 
         // Optionally, you could log or debug information
-        Debug.Log("Blade connected to handle through BladeHolder.");
+        // Debug.Log("Blade connected to handle through BladeHolder.");
         gameObject.name = blade.name + handle.name;
     }
 
@@ -163,7 +163,7 @@ public class EmptyWeapon : MonoBehaviour
     {
         if (wielder == null)
         {
-            Debug.LogError("Wielder is not assigned.");
+            // Debug.LogError("Wielder is not assigned.");
             return;
         }
 
@@ -179,11 +179,11 @@ public class EmptyWeapon : MonoBehaviour
 
         if (weaponPlacement != null)
         {
-            Debug.Log("Weapon placement found: " + weaponPlacement.name);
+            // Debug.Log("Weapon placement found: " + weaponPlacement.name);
         }
         else
         {
-            Debug.LogError("Weapon placement not found in wielder's children.");
+            // Debug.LogError("Weapon placement not found in wielder's children.");
         }
     }
 
@@ -202,22 +202,22 @@ public class EmptyWeapon : MonoBehaviour
 
             if (rightHandPlacement != null)
             {
-                Debug.Log("Right hand placement found: " + rightHandPlacement.name);
+                // Debug.Log("Right hand placement found: " + rightHandPlacement.name);
             }
             else
             {
-                Debug.LogError("right hand placement not found in wielder's children.");
+                // Debug.LogError("right hand placement not found in wielder's children.");
             }
 
             transform.position = weaponPlacement.position;
             transform.rotation = weaponPlacement.rotation;
             transform.SetParent(weaponPlacement);
 
-            Debug.Log("Weapon attached to weapon placement point.");
+            // Debug.Log("Weapon attached to weapon placement point.");
         }
         else
         {
-            Debug.LogError("Weapon placement not found under the wielder.");
+            // Debug.LogError("Weapon placement not found under the wielder.");
         }
     }
 }

@@ -139,6 +139,11 @@ public class PlayerController : MonoBehaviour
         return block.triggered;
     }
 
+    public EmptyWeapon GetWeapon()
+    {
+        return weapon;
+    }
+
     public void OnDeath() { }
 
     private void Awake()

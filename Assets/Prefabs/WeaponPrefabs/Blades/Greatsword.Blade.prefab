@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageValue: 45
-  weightValue: 1
+  weightValue: 0.5
   handleConnectionPoint: {fileID: 8737481598746570722}
 --- !u!64 &-5165800988153232831
 MeshCollider:

@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464167962673530212}
   - component: {fileID: 580333872093761873}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5673411332989463481}
   - component: {fileID: 1657902656428619229}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftThighHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -936,7 +936,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6840458404945499569}
   - component: {fileID: 2141113063286608541}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightForearmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -1075,7 +1075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6091443415724294645}
   - component: {fileID: 9074036015827613167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLowerLegHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -1704,7 +1704,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2523765890008948503}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &2330375346689285373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,7 +2014,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6876241699248160783}
   - component: {fileID: 5071708947404431734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftFootHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2099,7 +2099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8319363443010909975}
   - component: {fileID: 3107878032657751635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightFootHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2577,7 +2577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3544018986478357783}
   - component: {fileID: 6695841482756749348}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2939,7 +2939,7 @@ GameObject:
   - component: {fileID: 359417646636763445}
   - component: {fileID: 5356341216926041881}
   - component: {fileID: 1081279619709491032}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpearBetterPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3011,7 +3011,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -3392,7 +3392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4547493540081060977}
   - component: {fileID: 9015521035479551121}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLowerlegHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3541,7 +3541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4684586185219429477}
   - component: {fileID: 3120204234153961168}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightThighHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3723,7 +3723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4356967233880509531}
   - component: {fileID: 6471435568381125745}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TorsoHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3862,7 +3862,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4160363198481432578}
   - component: {fileID: 2801210154564693260}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: headHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3978,7 +3978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6357674393364631260}
   - component: {fileID: 4225536683378554895}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftForearmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}

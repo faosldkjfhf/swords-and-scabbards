@@ -37,6 +37,7 @@ public class ExampleBlade : MonoBehaviour, IBlade
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("collided: " + other.gameObject.name);
         int selfId = this.GetComponentInParent<PlayerController>().GetInstanceID();
         int otherId = other.GetComponent<PlayerController>().GetInstanceID();
         if (other.gameObject.CompareTag("Player") && otherId != selfId)

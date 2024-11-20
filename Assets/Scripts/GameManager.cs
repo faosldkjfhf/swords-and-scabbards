@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Status")]
     public static bool running = true;
+
+    private List<PlayerController> players = new List<PlayerController>();
 
     private void Awake()
     {
@@ -49,12 +50,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RegisterPlayer(PlayerController player)
+    {
+        players.Add(player);
+        Debug.Log(player.GetId());
+    }
+
     // Update is called once per frame
-    void Update() { }
+    void Update()
+    {
+        foreach (PlayerController player in players)
+        {
+            if (player.IsDead())
+            {
+                Debug.Log(player.GetId() + " died!");
+                player.OnDeath();
+                // QuitGame();
+            }
+        }
+    }
 
     public void QuitGame()
     {
-        Debug.Log("Quitting game");
         Application.Quit(0);
     }
 }

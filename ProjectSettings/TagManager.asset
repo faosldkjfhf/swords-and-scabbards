@@ -3,17 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - HitBox
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ignore Collision
   - Water
   - UI
   - Player 1
   - Player 2
-  - 
+  - Collision
   - 
   - 
   - 

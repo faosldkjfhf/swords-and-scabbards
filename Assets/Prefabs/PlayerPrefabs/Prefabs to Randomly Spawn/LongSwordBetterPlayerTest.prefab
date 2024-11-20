@@ -311,7 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2909226149021359240}
   - component: {fileID: 2127491657993468157}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightForearmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1466744184672029209}
   - component: {fileID: 4506890355465122912}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftArmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1744868559301730599}
   - component: {fileID: 1234987586560798305}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: headHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -1004,7 +1004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5941754066191439903}
   - component: {fileID: 3552412445301778163}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftThighHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -1681,7 +1681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7543739775252636886}
   - component: {fileID: 792116821819301109}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TorsoHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -1893,7 +1893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 690949888715889972}
   - component: {fileID: 8547025647982523913}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftFootHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2095,7 +2095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 515631027652668126}
   - component: {fileID: 5670972082951193088}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftForearmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2213,7 +2213,7 @@ GameObject:
   - component: {fileID: 8650562149772019159}
   - component: {fileID: 8005075983666495908}
   - component: {fileID: 7274814337588271308}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LongSwordBetterPlayerTest
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2285,7 +2285,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2415,7 +2415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4339576382471052176}
   - component: {fileID: 5680271653789515971}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightArmHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2468,7 +2468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1105289143829114755}
   - component: {fileID: 3824108043385930898}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLowerLegHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -2817,7 +2817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4176022967992765232}
   - component: {fileID: 6606081753842044764}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightFootHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3126,7 +3126,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6459118901863561205}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &3525091999900033316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3214,7 +3214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4788843139562921803}
   - component: {fileID: 668078321332267510}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightLowerlegHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -3716,7 +3716,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7411543387042675653}
   - component: {fileID: 3671805126550398725}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightThighHitbox
   m_TagString: HitBox
   m_Icon: {fileID: 0}

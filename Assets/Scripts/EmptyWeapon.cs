@@ -55,6 +55,21 @@ public class EmptyWeapon : MonoBehaviour
         isAttacking = attacking;
     }
 
+    public bool GetAttacking()
+    {
+        return isAttacking;
+    }
+
+    public bool DealtDamage()
+    {
+        return dealtDamage;
+    }
+
+    public void SetDealtDamage(bool value)
+    {
+        dealtDamage = value;
+    }
+
     public void SelectAndCreateBlade()
     {
         if (bladePrefabs.Count == 0)

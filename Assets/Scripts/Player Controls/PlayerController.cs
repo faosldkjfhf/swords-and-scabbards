@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -82,7 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
-    private static int id = 0;
+    private static int totalPlayers = 0;
+    private int id;
 
     public enum actionEnum
     {
@@ -95,6 +95,16 @@ public class PlayerController : MonoBehaviour
     public bool GetSprinting()
     {
         return isSprinting;
+    }
+
+    public int GetId()
+    {
+        return id;
+    }
+
+    public bool IsDead()
+    {
+        return currentHealth <= 0;
     }
 
     public Vector2 GetMoveDirection()
@@ -129,9 +139,12 @@ public class PlayerController : MonoBehaviour
         return block.triggered;
     }
 
+    public void OnDeath() { }
+
     private void Awake()
     {
-        id++;
+        totalPlayers++;
+        id = totalPlayers;
         PlayerInput input = this.GetComponentInChildren<PlayerInput>();
 
         user = InputUser.PerformPairingWithDevice(input.devices[0]);
@@ -145,6 +158,9 @@ public class PlayerController : MonoBehaviour
         playerInput = new PlayerInputActions();
         user.AssociateActionsWithUser(playerInput);
         rb = GetComponent<Rigidbody>();
+
+        currentHealth = GameManager.playerHealth;
+        Object.FindAnyObjectByType<GameManager>().RegisterPlayer(this);
     }
 
     private void OnEnable()
@@ -191,7 +207,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentStamina > 0)
             {
-                moveSpeed *= (float)(1.5f - Math.Log10(weight));
+                moveSpeed *= (float)(1.5f - Mathf.Log(weight));
                 isSprinting = true;
             }
         };
@@ -366,7 +382,7 @@ public class PlayerController : MonoBehaviour
         {
             // Exponential stamina decay - should probably change to be less punishing
             currentStamina -=
-                staminaDecay * (1.0f + 0.5f * (float)Math.Pow(weight - 1, 2)) * Time.deltaTime;
+                staminaDecay * (1.0f + 0.5f * (float)Mathf.Pow(weight - 1, 2)) * Time.deltaTime;
             currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
             if (currentStamina <= 0)
             {

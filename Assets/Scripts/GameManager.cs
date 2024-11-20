@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     public void RegisterPlayer(PlayerController player)
     {
         players.Add(player);
-        Debug.Log(player.GetId());
     }
 
     // Update is called once per frame

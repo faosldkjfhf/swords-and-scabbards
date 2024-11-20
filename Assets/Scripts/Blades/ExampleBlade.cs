@@ -38,7 +38,6 @@ public class ExampleBlade : MonoBehaviour, IBlade
     private void OnTriggerEnter(Collider other)
     {
         EmptyWeapon weapon = this.GetComponentInParent<EmptyWeapon>();
-        Debug.Log("collided: " + other.gameObject.name);
         int selfId = this.GetComponentInParent<PlayerController>().GetInstanceID();
         int otherId = other.GetComponent<PlayerController>().GetInstanceID();
         if (weapon.GetAttacking() && !weapon.DealtDamage())

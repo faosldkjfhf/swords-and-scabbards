@@ -173,12 +173,18 @@ MonoBehaviour:
   maxStamina: 100
   staminaDecay: 20
   staminaRegen: 10
+  acceleration: 10
+  deceleration: 5
+  gravity: -9.81
+  Speedometer: 0
   xSens: 30
   ySens: 30
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: 76c16fa2bdb311649bfa59f8f8167b4c, type: 3}
   weapon: {fileID: 0}
+  bladeStats: {fileID: 0}
+  wtf: 0
   animationStyle: {fileID: 0}
   rightHandGrip: {fileID: 0}
   leftHandGrip: {fileID: 0}
@@ -187,6 +193,7 @@ MonoBehaviour:
   - {fileID: 1403407616175413595}
   - {fileID: 8272825155464439797}
   hand: {fileID: 4152286992494068314}
+  currentStamina: 0
 --- !u!143 &3208461076910229596
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2396,6 +2403,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6766762570481615261, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5725564390907829103}
+    - targetCorrespondingSourceObject: {fileID: 6483173968440268964, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2407934627874293264}
     - targetCorrespondingSourceObject: {fileID: 8299142223913211576, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2245031216950261787}
@@ -2464,6 +2474,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5607816441845736459, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
   m_PrefabInstance: {fileID: 3163680444465699193}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8223426434598388189 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6483173968440268964, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}
+  m_PrefabInstance: {fileID: 3163680444465699193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2407934627874293264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8223426434598388189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3810edca1865c4f8070b058fecb236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8507291099990923492 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6766762570481615261, guid: 0abbe91d4e28ffc44ad459f554f5cbce, type: 3}

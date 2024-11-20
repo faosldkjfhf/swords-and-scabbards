@@ -696,6 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5041032844646685969}
   - component: {fileID: 4237743901542147949}
+  - component: {fileID: 4321497521688030594}
   m_Layer: 0
   m_Name: Joints
   m_TagString: Untagged
@@ -823,6 +824,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000068688765, y: -0.005793521, z: -0.0027987687}
     m_Extent: {x: 0.04360994, y: 0.042294696, z: 0.006816606}
   m_DirtyAABB: 0
+--- !u!114 &4321497521688030594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867663020320288868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3810edca1865c4f8070b058fecb236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2013463817800525157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,6 +1183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1747593228695623689}
   - component: {fileID: 3977851008380211041}
+  - component: {fileID: 9055098034668610356}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -1298,6 +1312,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00009581074, y: -0.0030767545, z: -0.00091552036}
     m_Extent: {x: 0.044162717, y: 0.052132066, z: 0.013649365}
   m_DirtyAABB: 0
+--- !u!114 &9055098034668610356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973640412152149595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3810edca1865c4f8070b058fecb236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3042321149430208395
 GameObject:
   m_ObjectHideFlags: 0

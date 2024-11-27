@@ -15,7 +15,7 @@ MonoBehaviour:
   Entities:
   - <Name>k__BackingField: Light Damage
     <ID>k__BackingField: 1073741837
-    MulticlipsPlayMode: 2
+    MulticlipsPlayMode: 3
     Clips:
     - AudioClip: {fileID: 8300000, guid: 0205044aa5149e249929394c341c1397, type: 3}
       Volume: 1

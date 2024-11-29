@@ -2388,8 +2388,8 @@ MonoBehaviour:
   deceleration: 5
   gravity: -9.81
   Speedometer: 0
-  xSens: 30
-  ySens: 30
+  xSens: 60
+  ySens: 60
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: e881b377f7325134cb801037357de651, type: 3}
@@ -2399,8 +2399,12 @@ MonoBehaviour:
   animationStyle: {fileID: 9100000, guid: eacc7c4f039defd4cabcbc9e07226f9a, type: 2}
   rightHandGrip: {fileID: 0}
   leftHandGrip: {fileID: 0}
-  audioSpot: {fileID: 0}
-  sounds: []
+  lightSound:
+    ID: 1073741837
+    _sourceAsset: {fileID: 11400000, guid: 936304ddb5d898d40a62b9371ddcf490, type: 2}
+  heavySound:
+    ID: 1073741838
+    _sourceAsset: {fileID: 11400000, guid: 936304ddb5d898d40a62b9371ddcf490, type: 2}
   hand: {fileID: 7117068346306983388}
   currentStamina: 0
 --- !u!143 &9114101311787734712

@@ -44,7 +44,9 @@ public class ExampleBlade : MonoBehaviour, IBlade
         {
             if (other.gameObject.CompareTag("Player") && otherId != selfId)
             {
-                other.gameObject.GetComponent<PlayerController>().TakeDamage(damageValue);
+                other
+                    .gameObject.GetComponent<PlayerController>()
+                    .TakeDamage(damageValue, weapon.GetAttackType());
                 weapon.SetDealtDamage(true);
             }
         }

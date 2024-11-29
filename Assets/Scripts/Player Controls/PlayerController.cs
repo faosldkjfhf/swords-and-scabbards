@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Ami.BroAudio;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -44,8 +46,11 @@ public class PlayerController : MonoBehaviour
     public Transform leftHandGrip;
 
     [Header("Audio")]
-    public GameObject audioSpot;
-    public AudioSource[] sounds;
+    [SerializeField]
+    SoundID lightSound = default;
+
+    [SerializeField]
+    SoundID heavySound = default;
 
     [Header("RightHand")]
     public Transform hand;
@@ -245,20 +250,12 @@ public class PlayerController : MonoBehaviour
         ExampleBlade exampleBlade = GetComponentInChildren<ExampleBlade>();
         if (exampleBlade != null)
         {
-            // Debug.LogError("blade is is:" + bladeStats.name);
-            // Debug.LogError(" blade weight is:" + bladeStats.WeightValue);
-            // Debug.LogError("Found ExampleBlade component. Weight is: " + exampleBlade.WeightValue);
-            //weight = exampleBlade.WeightValue; // Store the weight value
+            weight = exampleBlade.WeightValue; // Store the weight value
         }
         else
         {
-            // Debug.LogError("ExampleBlade component not found in children.");
+            Debug.LogError("ExampleBlade component not found in children.");
         }
-        // Debug.LogError("weapon is is:" + weapon.name);
-        // Debug.LogError("weight is:" + weapon.weight);
-        // Debug.LogError("DIFF weight is:" + gameObject.GetComponentInChildren<EmptyWeapon>().weight);
-        //weaponWeight = weapon.weight;
-        // weight = bladeStats.WeightValue;
     }
 
     public void setGrip()
@@ -287,7 +284,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Debug.LogError("Handle is missing from the weapon.");
+            Debug.LogError("Handle is missing from the weapon.");
         }
     }
 
@@ -295,7 +292,6 @@ public class PlayerController : MonoBehaviour
     {
         if (weaponPrefabs.Count == 0)
         {
-            // Debug.LogError("No weapon prefabs assigned.");
             return;
         }
 
@@ -319,8 +315,6 @@ public class PlayerController : MonoBehaviour
         // Get the Weapon component
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
         bladeStats = weapon.blade.GetComponent<ExampleBlade>();
-        // Debug.LogError(bladeStats.WeightValue + " <--- ASSIGNMENT CALL");
-        // Debug.LogError(weapon.blade.GetComponent<ExampleBlade>().WeightValue + " <--- DIRECT CALL");
         weight = bladeStats.WeightValue;
         wtf = bladeStats.WeightValue;
         weapon.wielder = this.gameObject;
@@ -332,9 +326,21 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Weapon instantiated at default position.");
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, AttackType type)
     {
         Debug.Log(this.gameObject.name + "took " + damage + " damage");
+        switch (type)
+        {
+            case AttackType.LIGHT:
+                Debug.Log("light");
+                BroAudio.Play(lightSound);
+                break;
+            case AttackType.HEAVY:
+                Debug.Log("heavy");
+                BroAudio.Play(heavySound);
+                break;
+        }
+
         effects.ScreenDamageEffect(damage / currentHealth);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, GameManager.playerHealth);
@@ -356,7 +362,7 @@ public class PlayerController : MonoBehaviour
         ApplyGravity();
         controller.Move(currentMove * Time.deltaTime);
 
-        weapon.setAttacking(animationController.isAttacking());
+        // weapon.setAttacking(animationController.isAttacking(), animationController.attackType());
         //weight = exampleBlade.WeightValue; // Store the weight value
     }
 
@@ -413,7 +419,6 @@ public class PlayerController : MonoBehaviour
     {
         if (weapon)
         {
-            // TakeDamage(10);
             weapon.Swing();
         }
         else

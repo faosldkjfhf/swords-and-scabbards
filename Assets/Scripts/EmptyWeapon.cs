@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackType
+{
+    NONE,
+    LIGHT,
+    HEAVY,
+    SPECIAL
+}
+
 public class EmptyWeapon : MonoBehaviour
 {
     public GameObject blade;
@@ -12,6 +20,8 @@ public class EmptyWeapon : MonoBehaviour
     private bool dealtDamage = false;
     public GameObject wielder;
     public RuntimeAnimatorController animationStyle;
+
+    private AttackType currentAttack = AttackType.NONE;
 
     public float weight;
 
@@ -45,7 +55,7 @@ public class EmptyWeapon : MonoBehaviour
         Debug.Log("weapon swung");
     }
 
-    public void setAttacking(bool attacking)
+    public void setAttacking(bool attacking, AttackType type)
     {
         if (attacking == false)
         {
@@ -53,11 +63,22 @@ public class EmptyWeapon : MonoBehaviour
         }
 
         isAttacking = attacking;
+        currentAttack = type;
     }
 
     public bool GetAttacking()
     {
         return isAttacking;
+    }
+
+    public AttackType GetAttackType()
+    {
+        if (!isAttacking)
+        {
+            return AttackType.NONE;
+        }
+
+        return currentAttack;
     }
 
     public bool DealtDamage()

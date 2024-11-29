@@ -1508,7 +1508,10 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 1
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Neck'\n\tTransform 'Neck'\n\tTransform 'Head'\n\tTransform
+    'Head'\n\tFrom animation clip 'SpearSLash'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1660,6 +1663,8 @@ MonoBehaviour:
   decceleration: 2
   MaxWalk: 0.5
   MaxRun: 2
+  weight: 0
+  animationStyle: {fileID: 0}
 --- !u!114 &6499523048020426322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2125,6 +2130,7 @@ GameObject:
   - component: {fileID: 2015097218995978305}
   - component: {fileID: 7985612113981962663}
   - component: {fileID: 6063781919354573642}
+  - component: {fileID: 7934670433077001568}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2206,6 +2212,50 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5793616977899727694}
   m_Enabled: 1
+--- !u!114 &7934670433077001568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5793616977899727694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &5843165675327603361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2830,6 +2880,9 @@ MonoBehaviour:
   handle: {fileID: 124336933938561173}
   wielder: {fileID: 7216439483014660272}
   animationStyle: {fileID: 9100000, guid: 9a8eb4f39e50e844ab5d016d1df9977d, type: 2}
+  weight: 0
+  weaponPlacement: {fileID: 0}
+  rightHandPlacement: {fileID: 0}
 --- !u!114 &1323099084526196766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3174,16 +3227,25 @@ MonoBehaviour:
   maxStamina: 100
   staminaDecay: 20
   staminaRegen: 10
+  acceleration: 10
+  deceleration: 5
+  gravity: -9.81
+  Speedometer: 0
   xSens: 30
   ySens: 30
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: 76c16fa2bdb311649bfa59f8f8167b4c, type: 3}
   weapon: {fileID: 467015221403258588}
+  bladeStats: {fileID: 0}
+  wtf: 0
   animationStyle: {fileID: 9100000, guid: 9a8eb4f39e50e844ab5d016d1df9977d, type: 2}
   rightHandGrip: {fileID: 3338945345079224449}
   leftHandGrip: {fileID: 8202015806255675891}
+  audioSpot: {fileID: 0}
+  sounds: []
   hand: {fileID: 7231115302823309042}
+  currentStamina: 0
 --- !u!143 &3982335200747227994
 CharacterController:
   m_ObjectHideFlags: 0

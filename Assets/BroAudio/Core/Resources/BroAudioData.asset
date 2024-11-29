@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: BroAudioData
   m_EditorClassIdentifier: 
   _assets:
-  - {fileID: 11400000, guid: 6ae8d9cb032bc1c40a8f7d4bd78c9337, type: 2}
   - {fileID: 11400000, guid: 936304ddb5d898d40a62b9371ddcf490, type: 2}
   - {fileID: 11400000, guid: cbfda7e0fcb5a7c40904594c3e9d80ff, type: 2}

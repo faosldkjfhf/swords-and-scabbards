@@ -61,6 +61,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         animationStyle = animator.runtimeAnimatorController;
     }
 
+    public AttackType attackType()
+    {
+        return AttackType.NONE;
+    }
+
     void gripWeapon()
     {
         //armController.rightHandTarget = playerController.rightHandGrip;
@@ -267,13 +272,21 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         isSpecialAttacking = animator.GetBool("isAttacking3");
         isBlocking = animator.GetBool("isBlocking");
 
-        if (isLightAttacking || isHeavyAttacking || isSpecialAttacking)
+        if (isLightAttacking)
         {
-            weapon.setAttacking(true);
+            weapon.setAttacking(true, AttackType.LIGHT);
+        }
+        else if (isHeavyAttacking)
+        {
+            weapon.setAttacking(true, AttackType.HEAVY);
+        }
+        else if (isSpecialAttacking)
+        {
+            weapon.setAttacking(true, AttackType.SPECIAL);
         }
         else
         {
-            weapon.setAttacking(false);
+            weapon.setAttacking(false, AttackType.NONE);
         }
 
         handleAttackAnimation();

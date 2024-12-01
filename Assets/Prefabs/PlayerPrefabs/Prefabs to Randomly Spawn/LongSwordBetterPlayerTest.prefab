@@ -2287,6 +2287,22 @@ MonoBehaviour:
   heavySound:
     ID: 1073741838
     _sourceAsset: {fileID: 11400000, guid: 936304ddb5d898d40a62b9371ddcf490, type: 2}
+  footsteps:
+  - ID: 1073741840
+    _sourceAsset: {fileID: 11400000, guid: 62d11b17ebf1a8c44a3d502196006c0a, type: 2}
+  - ID: 1073741841
+    _sourceAsset: {fileID: 11400000, guid: b18969df05d09fc4f889c01fa031fbfe, type: 2}
+  sprintingFootsteps:
+  - ID: 1073741842
+    _sourceAsset: {fileID: 11400000, guid: 8d9c908438419284bb0d3cff5ea288a9, type: 2}
+  - ID: 1073741843
+    _sourceAsset: {fileID: 11400000, guid: 3cff37394f263b640a195851267b9f4a, type: 2}
+  deathSound:
+    ID: 1073741839
+    _sourceAsset: {fileID: 11400000, guid: cbfda7e0fcb5a7c40904594c3e9d80ff, type: 2}
+  swingSound:
+    ID: 1073741844
+    _sourceAsset: {fileID: 11400000, guid: 17530cc74eb71da40ac21e3d7ead3a51, type: 2}
   hand: {fileID: 2387824983330801344}
   currentStamina: 0
 --- !u!143 &8005075983666495908

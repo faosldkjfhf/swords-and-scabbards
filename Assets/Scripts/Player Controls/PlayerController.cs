@@ -1,6 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using Ami.BroAudio;
-using UnityEditor.Animations;
+using Ami.BroAudio.Data;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -46,11 +47,12 @@ public class PlayerController : MonoBehaviour
     public Transform leftHandGrip;
 
     [Header("Audio")]
-    [SerializeField]
-    SoundID lightSound = default;
-
-    [SerializeField]
-    SoundID heavySound = default;
+    public SoundID lightSound = default;
+    public SoundID heavySound = default;
+    public SoundID[] footsteps = default;
+    public SoundID[] sprintingFootsteps = default;
+    public SoundID deathSound = default;
+    public SoundID swingSound = default;
 
     [Header("RightHand")]
     public Transform hand;
@@ -88,6 +90,11 @@ public class PlayerController : MonoBehaviour
 
     private static int totalPlayers = 0;
     private int id;
+
+    private bool footstepsPlaying = false;
+    private int footstepId = 0;
+    private int sprintFootstepId = 0;
+    private bool swingSoundPlaying = false;
 
     public enum actionEnum
     {
@@ -149,7 +156,10 @@ public class PlayerController : MonoBehaviour
         return weapon;
     }
 
-    public void OnDeath() { }
+    public void OnDeath()
+    {
+        BroAudio.Play(deathSound);
+    }
 
     private void Awake()
     {
@@ -177,36 +187,21 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.Enable();
 
-        // Movement
         move = playerInput.Player.Move;
         move.performed += OnMove;
         move.canceled += ctx => moveDirection = Vector2.zero;
 
-        // Look
         look = playerInput.Player.Look;
         look.performed += OnLook;
         look.canceled += ctx => lookPosition = Vector2.zero;
 
-        // Fire - placeholder for now
         lightAttack = playerInput.Player.Swing;
         lightAttack.performed += OnSwing;
-        // lightAttack.performed += ctx =>
-        // {
-        //     audioSpot.transform.position = transform.position;
-        //     sounds[0].Play();
-        // };
 
         heavyAttack = playerInput.Player.HeavyAttack;
-        // heavyAttack.performed += ctx =>
-        // {
-        //     audioSpot.transform.position = transform.position;
-        //     sounds[1].Play();
-        // };
 
         specialAttack = playerInput.Player.WeaponArt;
-        // specialAttack.performed += OnSwing;
 
-        // Block - placeholder for now
         block = playerInput.Player.Block;
         block.performed += OnBlock;
 
@@ -355,7 +350,42 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //MovePlayer();
+        if (move.inProgress)
+        {
+            if (!isSprinting)
+            {
+                if (!footstepsPlaying)
+                {
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
+                    footstepId = (footstepId + 1) % footsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                }
+            }
+            else
+            {
+                if (!footstepsPlaying)
+                {
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(
+                        sprintingFootsteps[sprintFootstepId]
+                    );
+                    sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                }
+            }
+        }
+
+        if (animationController.isAttacking() && !swingSoundPlaying)
+        {
+            swingSoundPlaying = true;
+            IAudioPlayer audioPlayer = BroAudio.Play(swingSound);
+        }
+        else if (!animationController.isAttacking())
+        {
+            swingSoundPlaying = false;
+        }
+
         UpdateMovement();
         PlayerLook();
         UpdateStamina();
@@ -441,7 +471,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
-        // Debug.Log("moved");
         moveDirection = ctx.ReadValue<Vector2>();
     }
 

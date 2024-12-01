@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WalkingFootstepsL
   m_EditorClassIdentifier: 
   Entities:
-  - <Name>k__BackingField: 
+  - <Name>k__BackingField: Walking Footsteps L
     <ID>k__BackingField: 1073741840
     MulticlipsPlayMode: 2
     Clips:

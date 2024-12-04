@@ -10,7 +10,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     [Header("IKController")]
     public IKConstraintController armController;
 
-
     [Header("MultiAimController")]
     public IKConstraintController headController;
 
@@ -67,18 +66,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public AttackType attackType()
     {
         return AttackType.NONE;
-    }
-
-    void gripWeapon()
-    {
-        //armController.rightHandTarget = playerController.rightHandGrip;
-        //if (playerController.leftHandGrip == null)
-        //{
-        // armController.leftHandGrabWeapon.enabled = false;
-        // } else
-        // {
-        //armController.leftHandTarget = playerController.rightHandGrip;
-        // }
     }
 
     void changeVelocity(
@@ -198,6 +185,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     public bool isAttacking()
     {
         return isLightAttacking || isHeavyAttacking || isSpecialAttacking;
+    }
+
+    public bool GetIsBlocking()
+    {
+        return isBlocking;
     }
 
     void handleAttackAnimation()

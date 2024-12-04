@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Ami.BroAudio;
 using Ami.BroAudio.Data;
 using UnityEngine;
@@ -37,9 +38,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private ExampleBlade bladeStats;
-
-    [SerializeField]
-    private float wtf;
 
     public RuntimeAnimatorController animationStyle;
     public Transform rightHandGrip;
@@ -159,9 +157,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnDeath()
     {
-        // PlayerManager.Unregister(this);
         IAudioPlayer deathPlayer = BroAudio.Play(deathSound);
         totalPlayers = 0;
+
+        deathAnimation();
     }
 
     public void Reset()
@@ -310,14 +309,7 @@ public class PlayerController : MonoBehaviour
         weapon = weaponInstance.GetComponent<EmptyWeapon>();
         bladeStats = weapon.blade.GetComponent<ExampleBlade>();
         weight = bladeStats.WeightValue;
-        wtf = bladeStats.WeightValue;
         weapon.wielder = this.gameObject;
-        //weaponInstance.transform.SetParent(hand);
-        //Debug.LogError(weaponInstance.name);
-        //weaponInstance.transform.localPosition = new Vector3(-0.004f, -0.0088f, 0.0001f); // Adjust as needed
-        //weaponInstance.transform.localRotation = Quaternion.Euler(-19.382f, 10.009f, 88.022f);
-        //weaponInstance.transform.localScale = Vector3.one;// Adjust as needed
-        //Debug.Log("Weapon instantiated at default position.");
     }
 
     public void TakeDamage(float damage, AttackType type)
@@ -357,55 +349,45 @@ public class PlayerController : MonoBehaviour
 
         if (move.inProgress)
         {
-            die();
+            if (!isSprinting)
+            {
+                if (!footstepsPlaying)
+                {
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
+                    footstepId = (footstepId + 1) % footsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                }
+            }
+            else
+            {
+                if (!footstepsPlaying)
+                {
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(
+                        sprintingFootsteps[sprintFootstepId]
+                    );
+                    sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                }
+            }
         }
-        else
+
+        if (animationController.isAttacking() && !swingSoundPlaying)
         {
-            if (move.inProgress)
-            {
-                if (!isSprinting)
-                {
-                    if (!footstepsPlaying)
-                    {
-                        footstepsPlaying = true;
-                        IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
-                        footstepId = (footstepId + 1) % footsteps.Length;
-                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                    }
-                }
-                else
-                {
-                    if (!footstepsPlaying)
-                    {
-                        footstepsPlaying = true;
-                        IAudioPlayer footstepsPlayer = BroAudio.Play(
-                            sprintingFootsteps[sprintFootstepId]
-                        );
-                        sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
-                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                    }
-                }
-            }
-
-            if (animationController.isAttacking() && !swingSoundPlaying)
-            {
-                swingSoundPlaying = true;
-                IAudioPlayer audioPlayer = BroAudio.Play(swingSound);
-            }
-            else if (!animationController.isAttacking())
-            {
-                swingSoundPlaying = false;
-            }
-
-            UpdateMovement();
-            PlayerLook();
-            UpdateStamina();
-            ApplyGravity();
-            controller.Move(currentMove * Time.deltaTime);
-
-            // weapon.setAttacking(animationController.isAttacking(), animationController.attackType());
-            //weight = exampleBlade.WeightValue; // Store the weight value
+            swingSoundPlaying = true;
+            IAudioPlayer audioPlayer = BroAudio.Play(swingSound);
         }
+        else if (!animationController.isAttacking())
+        {
+            swingSoundPlaying = false;
+        }
+
+        UpdateMovement();
+        PlayerLook();
+        UpdateStamina();
+        ApplyGravity();
+        controller.Move(currentMove * Time.deltaTime);
     }
 
     private void MovePlayer()
@@ -442,8 +424,6 @@ public class PlayerController : MonoBehaviour
                 isSprinting = false;
             }
         }
-
-        // Debug.Log(currentStamina);
     }
 
     private void PlayerLook()
@@ -467,17 +447,6 @@ public class PlayerController : MonoBehaviour
         {
             weapon.Swing();
         }
-        else
-        {
-            // Debug.Log("No weapon equipped");
-        }
-    }
-
-    private void OnDisconnect(InputAction.CallbackContext ctx)
-    {
-        user.UnpairDevices();
-        playerInput.Dispose();
-        Destroy(this.gameObject);
     }
 
     private void OnLook(InputAction.CallbackContext ctx)
@@ -490,10 +459,7 @@ public class PlayerController : MonoBehaviour
         moveDirection = ctx.ReadValue<Vector2>();
     }
 
-    private void OnBlock(InputAction.CallbackContext ctx)
-    {
-        // Debug.Log("blocked");
-    }
+    private void OnBlock(InputAction.CallbackContext ctx) { }
 
     private void UpdateMovement()
     {
@@ -533,11 +499,6 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime; // Apply gravity
         }
-    }
-
-    private void die()
-    {
-        deathAnimation();
     }
 
     private void deathAnimation()

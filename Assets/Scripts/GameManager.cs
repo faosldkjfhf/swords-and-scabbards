@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI endText;
 
     private List<uint> scores = new List<uint> { 0, 0 };
-
-    // public TextMeshProUGUI endText;
+    private bool gameEnded = false;
 
     private void Awake()
     {
@@ -62,32 +61,54 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Restart() {
+    void Restart()
+    {
         // update score and check game state
-        for(int i = 0; i < scores.Count; i++) {
-            if (scores[i] > (int)Mathf.Ceil(bestOf / 2)) {
+        for (int i = 0; i < scores.Count; i++)
+        {
+            if (scores[i] > (int)Mathf.Ceil(bestOf / 2))
+            {
                 Debug.Log("game over!");
                 endText.text = "Player " + (i + 1) + " Won!";
 
                 running = false;
+                gameEnded = true;
                 return;
             }
         }
 
+        StartCoroutine(WaitForDeath());
+    }
+
+    IEnumerator WaitForDeath()
+    {
+        running = false;
+
+        Debug.Log("waiting");
+        yield return new WaitForSeconds(2);
+
         // respawn the players
         playerManager.RespawnPlayers();
+        running = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!running) {
-            pauseScreen.SetActive(true);
+        if (!running)
+        {
+            if (gameEnded)
+            {
+                pauseScreen.SetActive(true);
+            }
+
             return;
         }
 
-        foreach(PlayerController player in PlayerManager.Players()) {
-            if (player.IsDead()) {
+        foreach (PlayerController player in PlayerManager.Players())
+        {
+            if (player.IsDead())
+            {
                 player.OnDeath();
 
                 Debug.Log(player.GetId());

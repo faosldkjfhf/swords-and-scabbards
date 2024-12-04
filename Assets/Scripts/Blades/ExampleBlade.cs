@@ -44,6 +44,19 @@ public class ExampleBlade : MonoBehaviour, IBlade
         {
             if (other.gameObject.CompareTag("Player") && otherId != selfId)
             {
+                // if other player is blocking, they don't take damage
+                if (
+                    other
+                        .gameObject.GetComponentInChildren<TwoDimensionalAnimationStateController>()
+                        .GetIsBlocking()
+                )
+                {
+                    Debug.Log("BLOCKED!");
+                    return;
+                }
+
+                // take damage
+
                 other
                     .gameObject.GetComponent<PlayerController>()
                     .TakeDamage(damageValue, weapon.GetAttackType());

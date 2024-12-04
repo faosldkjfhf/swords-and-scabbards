@@ -96,6 +96,14 @@ public class PlayerController : MonoBehaviour
 
     private Transform zeroPosition;
 
+
+    public Transform headBone; // Drag the head bone here in the inspector.
+    public float snapBackSpeed = 5f; // Adjust for smoothness.
+    public Vector3 hitRotation = new Vector3(-30, 0, 0); // Example rotation when hit.
+
+    private Quaternion originalRotation;
+    private bool isHit = false;
+
     public enum actionEnum
     {
         LightSwing,
@@ -243,6 +251,12 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (headBone != null)
+        {
+            originalRotation = headBone.localRotation;
+        }
+
         controller = this.GetComponent<CharacterController>();
         camera = this.GetComponentInChildren<Camera>();
         animationController = this.GetComponentInChildren<TwoDimensionalAnimationStateController>();
@@ -332,7 +346,16 @@ public class PlayerController : MonoBehaviour
         {
             // GameManager.running = false;
         }
-    }
+
+        if (headBone != null)
+        {
+            // Apply the hit rotation
+            Debug.Log("this is running" + headBone.rotation);
+            headBone.localRotation = Quaternion.Euler(hitRotation);
+            Debug.Log("afterHit" + headBone.rotation);
+            isHit = true;
+        }
+}
 
     // Update is called once per frame
     void Update()
@@ -381,6 +404,19 @@ public class PlayerController : MonoBehaviour
         else if (!animationController.isAttacking())
         {
             swingSoundPlaying = false;
+        }
+
+
+        if (isHit)
+        {
+            // Gradually return to the original rotation
+            headBone.localRotation = Quaternion.Lerp(headBone.localRotation, originalRotation, Time.deltaTime * snapBackSpeed);
+
+            // Stop the motion once it's back to the original position
+            if (Quaternion.Angle(headBone.localRotation, originalRotation) < 0.1f)
+            {
+                isHit = false;
+            }
         }
 
         UpdateMovement();

@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac05f4ee32ba436fba3db11ca149a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 45
+  damageValue: 15
   weightValue: 2
   handleConnectionPoint: {fileID: 8261189615479975518}
 --- !u!64 &2010181911333635474

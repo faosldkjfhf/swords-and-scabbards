@@ -51,7 +51,6 @@ MonoBehaviour:
   - {fileID: 4568517260041092375, guid: 4377a9241f887384ea7ebc6edb5f9925, type: 3}
   - {fileID: 1393658393790131038, guid: d4264a8ac33ab9742b9ec8edbb025d85, type: 3}
   - {fileID: 5633653466101983259, guid: 9b3e5e4d46665244199ba1cf8c9e5bdd, type: 3}
-  - {fileID: 8061391650825608421, guid: 4eb41e80f66e11144957fef8345c4c04, type: 3}
   handlePrefabs:
   - {fileID: 1141398598712394999, guid: fc51b0fa8abfa0f48a0ad3dd2d9ee224, type: 3}
   handle: {fileID: 0}
@@ -60,7 +59,6 @@ MonoBehaviour:
   weight: 0
   weaponPlacement: {fileID: 0}
   rightHandPlacement: {fileID: 0}
-  bladeCollider: {fileID: 5588762568962280667}
 --- !u!114 &7869858973548910659
 MonoBehaviour:
   m_ObjectHideFlags: 0

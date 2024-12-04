@@ -10,6 +10,10 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
     [Header("IKController")]
     public IKConstraintController armController;
 
+
+    [Header("MultiAimController")]
+    public IKConstraintController headController;
+
     private EmptyWeapon weapon;
 
     [Header("Animator")]
@@ -257,6 +261,11 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
                 animator.SetBool(boolParameter, false);
             }
         }
+    }
+
+    public void death()
+    {
+        animator.SetTrigger("die");
     }
 
     // Update is called once per frame

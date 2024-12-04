@@ -350,50 +350,57 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (move.inProgress)
+        if (currentHealth <= 0)
         {
-            if (!isSprinting)
+            die();
+        }
+        else
+        {
+            if (move.inProgress)
             {
-                if (!footstepsPlaying)
+                if (!isSprinting)
                 {
-                    footstepsPlaying = true;
-                    IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
-                    footstepId = (footstepId + 1) % footsteps.Length;
-                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                    if (!footstepsPlaying)
+                    {
+                        footstepsPlaying = true;
+                        IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
+                        footstepId = (footstepId + 1) % footsteps.Length;
+                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                    }
+                }
+                else
+                {
+                    if (!footstepsPlaying)
+                    {
+                        footstepsPlaying = true;
+                        IAudioPlayer footstepsPlayer = BroAudio.Play(
+                            sprintingFootsteps[sprintFootstepId]
+                        );
+                        sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
+                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                    }
                 }
             }
-            else
+
+            if (animationController.isAttacking() && !swingSoundPlaying)
             {
-                if (!footstepsPlaying)
-                {
-                    footstepsPlaying = true;
-                    IAudioPlayer footstepsPlayer = BroAudio.Play(
-                        sprintingFootsteps[sprintFootstepId]
-                    );
-                    sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
-                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                }
+                swingSoundPlaying = true;
+                IAudioPlayer audioPlayer = BroAudio.Play(swingSound);
             }
-        }
+            else if (!animationController.isAttacking())
+            {
+                swingSoundPlaying = false;
+            }
 
-        if (animationController.isAttacking() && !swingSoundPlaying)
-        {
-            swingSoundPlaying = true;
-            IAudioPlayer audioPlayer = BroAudio.Play(swingSound);
-        }
-        else if (!animationController.isAttacking())
-        {
-            swingSoundPlaying = false;
-        }
+            UpdateMovement();
+            PlayerLook();
+            UpdateStamina();
+            ApplyGravity();
+            controller.Move(currentMove * Time.deltaTime);
 
-        UpdateMovement();
-        PlayerLook();
-        UpdateStamina();
-        ApplyGravity();
-        controller.Move(currentMove * Time.deltaTime);
-
-        // weapon.setAttacking(animationController.isAttacking(), animationController.attackType());
-        //weight = exampleBlade.WeightValue; // Store the weight value
+            // weapon.setAttacking(animationController.isAttacking(), animationController.attackType());
+            //weight = exampleBlade.WeightValue; // Store the weight value
+        }
     }
 
     private void MovePlayer()
@@ -517,5 +524,15 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime; // Apply gravity
         }
+    }
+
+    private void die()
+    {
+        deathAnimation();
+    }
+
+    private void deathAnimation()
+    {
+        animationController.death();
     }
 }

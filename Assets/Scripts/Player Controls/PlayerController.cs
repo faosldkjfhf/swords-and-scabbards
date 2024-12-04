@@ -127,27 +127,20 @@ public class PlayerController : MonoBehaviour
     public bool GetLightAttack()
     {
         return lightAttack.triggered;
-        // TODO: cooldown linked to speed of animation
-        // use coroutine to wait for animation to finish
     }
 
     public bool GetHeavyAttack()
     {
-        // Debug.Log("heavy attack:" + heavyAttack.triggered);
         return heavyAttack.triggered;
     }
 
     public bool GetSpecialAttack()
     {
-        // Debug.Log("heavy attack:" + specialAttack.triggered);
         return specialAttack.triggered;
-        // TODO: cooldown linked to speed of animation
-        // use coroutine to wait for animation to finish
     }
 
     public bool GetBlocking()
     {
-        // Debug.Log("block:" + block.triggered);
         return block.triggered;
     }
 
@@ -161,26 +154,24 @@ public class PlayerController : MonoBehaviour
         BroAudio.Play(deathSound);
     }
 
+    public void Reset() {
+        transform.position = Vector3.zero;
+        currentHealth = GameManager.playerHealth;
+    }
+
     private void Awake()
     {
         totalPlayers++;
         id = totalPlayers;
         PlayerInput input = this.GetComponentInChildren<PlayerInput>();
-
         user = InputUser.PerformPairingWithDevice(input.devices[0]);
-        if (input.devices.Count > 1)
-        {
-            for (int i = 1; i < input.devices.Count; i++)
-            {
-                InputUser.PerformPairingWithDevice(input.devices[1], user);
-            }
-        }
+
         playerInput = new PlayerInputActions();
         user.AssociateActionsWithUser(playerInput);
         rb = GetComponent<Rigidbody>();
 
         currentHealth = GameManager.playerHealth;
-        Object.FindAnyObjectByType<GameManager>().RegisterPlayer(this);
+        FindAnyObjectByType<GameManager>().RegisterPlayer(this);
     }
 
     private void OnEnable()
@@ -261,20 +252,10 @@ public class PlayerController : MonoBehaviour
         {
             rightHandGrip = weapon.handle.transform.Find("rightHandGrip");
             leftHandGrip = weapon.handle.transform.Find("leftHandGrip");
-            if (rightHandGrip != null)
-            {
-                // Debug.Log("Right hand grip set successfully.");
-            }
 
             if (rightHandGrip != null && leftHandGrip == null)
             {
                 GetComponentInChildren<IKConstraintController>().leftHandGrabWeapon.enabled = false;
-                // Debug.LogError("one handed weapon");
-            }
-
-            if (rightHandGrip != null && leftHandGrip != null)
-            {
-                // Debug.LogError("grips succeeded");
             }
         }
         else
@@ -291,7 +272,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Randomly select a weapon prefab
-        int randomIndex = UnityEngine.Random.Range(0, weaponPrefabs.Count);
+        int randomIndex = Random.Range(0, weaponPrefabs.Count);
 
         Vector3 spawnPosition = new Vector3(
             transform.position.x,
@@ -406,7 +387,6 @@ public class PlayerController : MonoBehaviour
     private void MovePlayer()
     {
         Vector3 moveVec = new Vector3(moveDirection.x, 0, moveDirection.y);
-        //controller.Move(moveSpeed * Time.deltaTime * transform.TransformDirection(moveVec));
 
         // Transform the movement vector to be relative to the player's current rotation
         Vector3 worldMove = transform.TransformDirection(moveVec);

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - HitBox
+  - Player 1 Spawn
+  - Player 2 Spawn
   layers:
   - Default
   - TransparentFX

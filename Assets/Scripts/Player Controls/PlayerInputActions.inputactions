@@ -76,7 +76,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": "Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -164,7 +164,7 @@
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": "Gamepad",
                     "action": "Swing",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -291,6 +291,17 @@
         {
             "name": "Gamepad",
             "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Gamepad2",
+            "bindingGroup": "Gamepad2",
             "devices": [
                 {
                     "devicePath": "<Gamepad>",

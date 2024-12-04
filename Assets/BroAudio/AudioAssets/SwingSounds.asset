@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Entities:
   - <Name>k__BackingField: 
-    <ID>k__BackingField: 0
-    MulticlipsPlayMode: 3
+    <ID>k__BackingField: 1073741844
+    MulticlipsPlayMode: 2
     Clips:
     - AudioClip: {fileID: 8300000, guid: 8ccefd1bea9aceb4b9c6139c1851f45f, type: 3}
       Volume: 1

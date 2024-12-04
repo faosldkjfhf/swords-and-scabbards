@@ -1689,7 +1689,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 0.5
   near clip plane: 0.1
   far clip plane: 1000
   field of view: 90
@@ -1741,8 +1741,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -3009,8 +3009,8 @@ MonoBehaviour:
   deceleration: 5
   gravity: -9.81
   Speedometer: 0
-  xSens: 60
-  ySens: 60
+  xSens: 100
+  ySens: 100
   weight: 1
   weaponPrefabs:
   - {fileID: 1567021246877657905, guid: 36223956ce8690043ae65686c32efa06, type: 3}

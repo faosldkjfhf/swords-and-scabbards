@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,8 +10,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Status")]
     public static bool running = true;
+    public uint bestOf = 7;
 
     private List<PlayerController> players = new List<PlayerController>();
+
+    private List<uint> scores = new List<uint>();
+
+    public TextMeshProUGUI endText;
+
+
 
     private void Awake()
     {
@@ -20,7 +28,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("locking cursor");
             LockCursor();
         }
     }
@@ -50,9 +57,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Restart(int id) {
+        foreach(uint score in scores) {
+            if (score > (int)(bestOf / 2)) {
+                Debug.Log("game over!");
+                endText.enabled = true;
+            }
+        }
+
+        foreach(PlayerController player in players) {
+            player.Reset();
+        }
+    }
+
     public void RegisterPlayer(PlayerController player)
     {
         players.Add(player);
+        scores.Add(0);
     }
 
     // Update is called once per frame
@@ -62,9 +83,11 @@ public class GameManager : MonoBehaviour
         {
             if (player.IsDead())
             {
-                Debug.Log(player.GetId() + " died!");
+                // Debug.Log(player.GetId() + " died!");
                 player.OnDeath();
-                // QuitGame();
+                scores[player.GetId() - 1]++;
+
+                Restart(player.GetId() - 1);
             }
         }
     }

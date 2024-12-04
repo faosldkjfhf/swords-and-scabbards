@@ -57,7 +57,7 @@ MonoBehaviour:
       FadeIn: 0
       FadeOut: 0
       Weight: 0
-    <MasterVolume>k__BackingField: 1
+    <MasterVolume>k__BackingField: 0.5
     <Loop>k__BackingField: 0
     <SeamlessLoop>k__BackingField: 0
     <TransitionTime>k__BackingField: 0

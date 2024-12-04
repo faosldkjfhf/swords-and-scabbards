@@ -151,7 +151,8 @@ public class PlayerController : MonoBehaviour
         return weapon;
     }
 
-    public void Disconnect() {
+    public void Disconnect()
+    {
         user.UnpairDevices();
         playerInput.Dispose();
     }
@@ -163,7 +164,8 @@ public class PlayerController : MonoBehaviour
         totalPlayers = 0;
     }
 
-    public void Reset() {
+    public void Reset()
+    {
         transform.position = Vector3.zero;
         currentHealth = GameManager.playerHealth;
     }
@@ -176,7 +178,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("id: " + id);
 
         // Set spawn point and have players look at each other
-        spawnPoint = id == 1 ? GameObject.FindGameObjectWithTag("Player 1 Spawn") : GameObject.FindGameObjectWithTag("Player 2 Spawn");
+        spawnPoint =
+            id == 1
+                ? GameObject.FindGameObjectWithTag("Player 1 Spawn")
+                : GameObject.FindGameObjectWithTag("Player 2 Spawn");
         zeroPosition = GameObject.FindGameObjectWithTag("Zero").transform;
         this.transform.position = spawnPoint.transform.position + new Vector3(0, 3, 0);
 
@@ -255,10 +260,6 @@ public class PlayerController : MonoBehaviour
         {
             weight = exampleBlade.WeightValue; // Store the weight value
         }
-        // else
-        // {
-        //     Debug.LogError("ExampleBlade component not found in children.");
-        // }
     }
 
     public void setGrip()
@@ -344,38 +345,47 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.running) {
+        if (!GameManager.running)
+        {
             playerInput.Disable();
             return;
-        } else {
+        }
+        else
+        {
             playerInput.Enable();
         }
 
         if (move.inProgress)
         {
-            if (!isSprinting)
-            {
-                if (!footstepsPlaying)
-                {
-                    footstepsPlaying = true;
-                    IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
-                    footstepId = (footstepId + 1) % footsteps.Length;
-                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                }
-            }
-            else
-            {
-                if (!footstepsPlaying)
-                {
-                    footstepsPlaying = true;
-                    IAudioPlayer footstepsPlayer = BroAudio.Play(
-                        sprintingFootsteps[sprintFootstepId]
-                    );
-                    sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
-                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                }
-            }
+            die();
         }
+        else
+        {
+            if (move.inProgress)
+            {
+                if (!isSprinting)
+                {
+                    if (!footstepsPlaying)
+                    {
+                        footstepsPlaying = true;
+                        IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
+                        footstepId = (footstepId + 1) % footsteps.Length;
+                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                    }
+                }
+                else
+                {
+                    if (!footstepsPlaying)
+                    {
+                        footstepsPlaying = true;
+                        IAudioPlayer footstepsPlayer = BroAudio.Play(
+                            sprintingFootsteps[sprintFootstepId]
+                        );
+                        sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
+                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                    }
+                }
+            }
 
             if (animationController.isAttacking() && !swingSoundPlaying)
             {
@@ -438,7 +448,8 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerLook()
     {
-        if (lookPosition == Vector2.zero) {
+        if (lookPosition == Vector2.zero)
+        {
             return;
         }
 

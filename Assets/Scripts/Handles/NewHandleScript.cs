@@ -29,13 +29,13 @@ public class NewHandleScript : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -67,7 +67,7 @@ public class NewHandleScript : MonoBehaviour
         // Move the blade so that the connection points align properly
         blade.transform.position -= connectionOffset;
 
-        Debug.Log("Blade created: " + blade.name);
+        // Debug.Log("Blade created: " + blade.name);
     }
 
     public Transform getHGandleConnectionPoint(string childName)
@@ -110,7 +110,7 @@ public class NewHandleScript : MonoBehaviour
         newParent.GetComponent<NewEmptyWeapon>().blade = blade;
         newParent.GetComponent<NewEmptyWeapon>().handle = gameObject;
         newParent.GetComponent<NewEmptyWeapon>().animationStyle = animationStyle;
-        
+
     }
 
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,18 +8,20 @@ public class GameManager : MonoBehaviour
 {
     [Header("Player")]
     public static float playerHealth = 100.0f;
+    public PlayerManager playerManager = default;
 
     [Header("Game Status")]
     public static bool running = true;
     public uint bestOf = 7;
 
-    private List<PlayerController> players = new List<PlayerController>();
-
-    private List<uint> scores = new List<uint>();
-
+    [Header("UI")]
+    public TextMeshProUGUI scoreText;
+    public GameObject pauseScreen;
     public TextMeshProUGUI endText;
 
+    private List<uint> scores = new List<uint> { 0, 0 };
 
+    // public TextMeshProUGUI endText;
 
     private void Awake()
     {
@@ -30,6 +33,8 @@ public class GameManager : MonoBehaviour
         {
             LockCursor();
         }
+
+        pauseScreen.SetActive(false);
     }
 
     public void LockCursor()
@@ -57,43 +62,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Restart(int id) {
-        foreach(uint score in scores) {
-            if (score > (int)(bestOf / 2)) {
+    void Restart() {
+        // update score and check game state
+        for(int i = 0; i < scores.Count; i++) {
+            if (scores[i] > (int)Mathf.Ceil(bestOf / 2)) {
                 Debug.Log("game over!");
-                endText.enabled = true;
+                endText.text = "Player " + (i + 1) + " Won!";
+
+                running = false;
+                return;
             }
         }
 
-        foreach(PlayerController player in players) {
-            player.Reset();
-        }
-    }
-
-    public void RegisterPlayer(PlayerController player)
-    {
-        players.Add(player);
-        scores.Add(0);
+        // respawn the players
+        playerManager.RespawnPlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (PlayerController player in players)
-        {
-            if (player.IsDead())
-            {
-                // Debug.Log(player.GetId() + " died!");
-                player.OnDeath();
-                scores[player.GetId() - 1]++;
+        if (!running) {
+            pauseScreen.SetActive(true);
+            return;
+        }
 
-                Restart(player.GetId() - 1);
+        foreach(PlayerController player in PlayerManager.Players()) {
+            if (player.IsDead()) {
+                player.OnDeath();
+
+                Debug.Log(player.GetId());
+
+                scores[player.GetId() % 2]++;
+
+                scoreText.text = scores[0] + " - " + scores[1];
+
+                Restart();
+                break;
             }
         }
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit(0);
     }
 }

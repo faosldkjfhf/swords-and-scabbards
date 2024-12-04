@@ -56,7 +56,6 @@ public class TwoDimensionalAnimationStateController : MonoBehaviour
         //gripWeapon();
         getAnimationStyle();
         weight = playerController.weight;
-        Debug.LogError("YADAYDA");
     }
 
     void getAnimationStyle()

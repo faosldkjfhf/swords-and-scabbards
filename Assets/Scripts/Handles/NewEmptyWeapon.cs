@@ -40,7 +40,7 @@ public class NewEmptyWeapon : MonoBehaviour
 
     public void Swing()
     {
-        Debug.Log("weapon swung");
+        // Debug.Log("weapon swung");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -91,7 +91,7 @@ public class NewEmptyWeapon : MonoBehaviour
 
         if (weaponPoint != null)
         {
-            Debug.Log("Weapon placement found: " + weaponPoint.name);
+            // Debug.Log("Weapon placement found: " + weaponPoint.name);
         }
         else
         {
@@ -104,7 +104,7 @@ public class NewEmptyWeapon : MonoBehaviour
         GameObject weaponPointObject = FindNestedGameObject(wielder, "WeaponPoint");
         transform.position = weaponPointObject.transform.position;
         transform.rotation = weaponPointObject.transform.rotation;
-        
+
 
     }
 

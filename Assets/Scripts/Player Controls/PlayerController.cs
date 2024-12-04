@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Ami.BroAudio;
 using Ami.BroAudio.Data;
@@ -85,6 +84,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float currentStamina;
     private new Camera camera;
+    private GameObject spawnPoint;
 
     private Rigidbody rb;
 
@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviour
     private int footstepId = 0;
     private int sprintFootstepId = 0;
     private bool swingSoundPlaying = false;
+
+    private Transform zeroPosition;
 
     public enum actionEnum
     {
@@ -149,9 +151,16 @@ public class PlayerController : MonoBehaviour
         return weapon;
     }
 
+    public void Disconnect() {
+        user.UnpairDevices();
+        playerInput.Dispose();
+    }
+
     public void OnDeath()
     {
-        BroAudio.Play(deathSound);
+        // PlayerManager.Unregister(this);
+        IAudioPlayer deathPlayer = BroAudio.Play(deathSound);
+        totalPlayers = 0;
     }
 
     public void Reset() {
@@ -163,6 +172,14 @@ public class PlayerController : MonoBehaviour
     {
         totalPlayers++;
         id = totalPlayers;
+
+        Debug.Log("id: " + id);
+
+        // Set spawn point and have players look at each other
+        spawnPoint = id == 1 ? GameObject.FindGameObjectWithTag("Player 1 Spawn") : GameObject.FindGameObjectWithTag("Player 2 Spawn");
+        zeroPosition = GameObject.FindGameObjectWithTag("Zero").transform;
+        this.transform.position = spawnPoint.transform.position + new Vector3(0, 3, 0);
+
         PlayerInput input = this.GetComponentInChildren<PlayerInput>();
         user = InputUser.PerformPairingWithDevice(input.devices[0]);
 
@@ -171,7 +188,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         currentHealth = GameManager.playerHealth;
-        FindAnyObjectByType<GameManager>().RegisterPlayer(this);
+        PlayerManager.Register(this);
     }
 
     private void OnEnable()
@@ -238,10 +255,10 @@ public class PlayerController : MonoBehaviour
         {
             weight = exampleBlade.WeightValue; // Store the weight value
         }
-        else
-        {
-            Debug.LogError("ExampleBlade component not found in children.");
-        }
+        // else
+        // {
+        //     Debug.LogError("ExampleBlade component not found in children.");
+        // }
     }
 
     public void setGrip()
@@ -304,15 +321,12 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage, AttackType type)
     {
-        Debug.Log(this.gameObject.name + "took " + damage + " damage");
         switch (type)
         {
             case AttackType.LIGHT:
-                Debug.Log("light");
                 BroAudio.Play(lightSound);
                 break;
             case AttackType.HEAVY:
-                Debug.Log("heavy");
                 BroAudio.Play(heavySound);
                 break;
         }
@@ -323,45 +337,45 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            GameManager.running = false;
-            Debug.Log(id + " DIED");
+            // GameManager.running = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth <= 0)
-        {
-            die();
+        if (!GameManager.running) {
+            playerInput.Disable();
+            return;
+        } else {
+            playerInput.Enable();
         }
-        else
+
+        if (move.inProgress)
         {
-            if (move.inProgress)
+            if (!isSprinting)
             {
-                if (!isSprinting)
+                if (!footstepsPlaying)
                 {
-                    if (!footstepsPlaying)
-                    {
-                        footstepsPlaying = true;
-                        IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
-                        footstepId = (footstepId + 1) % footsteps.Length;
-                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                    }
-                }
-                else
-                {
-                    if (!footstepsPlaying)
-                    {
-                        footstepsPlaying = true;
-                        IAudioPlayer footstepsPlayer = BroAudio.Play(
-                            sprintingFootsteps[sprintFootstepId]
-                        );
-                        sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
-                        footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
-                    }
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(footsteps[footstepId]);
+                    footstepId = (footstepId + 1) % footsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
                 }
             }
+            else
+            {
+                if (!footstepsPlaying)
+                {
+                    footstepsPlaying = true;
+                    IAudioPlayer footstepsPlayer = BroAudio.Play(
+                        sprintingFootsteps[sprintFootstepId]
+                    );
+                    sprintFootstepId = (sprintFootstepId + 1) % sprintingFootsteps.Length;
+                    footstepsPlayer.OnEnd(soundId => footstepsPlaying = false);
+                }
+            }
+        }
 
             if (animationController.isAttacking() && !swingSoundPlaying)
             {
@@ -424,6 +438,10 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerLook()
     {
+        if (lookPosition == Vector2.zero) {
+            return;
+        }
+
         xRotation -= lookPosition.y * Time.deltaTime * xSens;
         xRotation = Mathf.Clamp(xRotation, -80.0f, 80.0f);
         yRotation += lookPosition.x * Time.deltaTime * ySens;
@@ -440,7 +458,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("No weapon equipped");
+            // Debug.Log("No weapon equipped");
         }
     }
 
@@ -463,7 +481,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnBlock(InputAction.CallbackContext ctx)
     {
-        Debug.Log("blocked");
+        // Debug.Log("blocked");
     }
 
     private void UpdateMovement()

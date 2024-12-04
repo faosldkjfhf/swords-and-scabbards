@@ -52,7 +52,7 @@ public class EmptyWeapon : MonoBehaviour
 
     public void Swing()
     {
-        Debug.Log("weapon swung");
+        // Debug.Log("weapon swung");
     }
 
     public void setAttacking(bool attacking, AttackType type)
